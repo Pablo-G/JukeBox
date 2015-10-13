@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="JukeBox" default="Help" basedir="." >
+
+  <property name="build.dir" value="build" />
+  <property name="src.dir"   value="src" />
+  <property name="lib.dir"   value="lib" />
+  <property name="doc.dir"   value="doc" />
+
+  <target name="Help">
+    <echo message="Compile | Compila el proyecto."/>
+    <echo message="Clean | Restaura la carpeta a su configuración inicial."/>
+    <echo message="Document | Compila, empaqueta y genera la documentación del proyecto."/>
+    <echo message="JukeBox.jar | Compila y empaqueta el proyecto."/>
+    <echo message="Help | Muestra esta lista de opciones."/>
+    <echo message="Test | Corre las pruebas unitarias."/>
+  </target>
+
+  <target name="JukeBox.jar" depends="Compile">
+    <jar jarfile="JukeBox.jar">
+      <zipfileset dir="${build.dir}" prefix="" />
+      <zipgroupfileset dir="${lib.dir}" includes="*.jar" />
+      <manifest>
+        <attribute name="Main-Class" value="JukeBox.App"/>
+      </manifest>
+    </jar>
+  </target>
+
+  <target name="Compile">
+    <mkdir dir="${build.dir}"/>
+    <javac srcdir="${src.dir}"
+           destdir="${build.dir}"
+           debug="true"
+           debuglevel="lines,vars,source"
+           includeantruntime="false"
+           deprecation="true"
+           nowarn="off"
+           encoding="utf-8">
+      <classpath>
+        <fileset dir="${lib.dir}">
+          <include name="*.jar"/>
+        </fileset>
+      </classpath>
+      <compilerarg value="-Xlint:unchecked"/>
+    </javac>
+  </target>
+
+  <target name="Document" depends="JukeBox.jar">
+    <mkdir dir="${doc.dir}"/>
+    <javadoc packagenames="JukeBox.*"
+             sourcepath="src"
+             defaultexcludes="yes"
+             destdir="${doc.dir}"
+             charset="UTF-8"
+             author="false"
+             version="false"
+             use="true"
+             windowtitle="JukeBox">
+      <doctitle><![CDATA[<h1>JukeBox</h1>]]></doctitle>
+      <link href="http://docs.oracle.com/javase/8/docs/api/" />
+      <classpath>
+        <pathelement location="${lib.dir}/junit.jar" />
+        <pathelement location="${lib.dir}/hamcrest-core.jar" />
+        <pathelement location="${lib.dir}/sqlite-jdbc-3.8.11.2.jar" />
+      </classpath>
+    </javadoc>
+  </target>
+
+  <target name="Clean">
+    <delete file="JukeBox.jar"/>
+    <delete dir="${build.dir}"/>
+    <delete dir="${doc.dir}"/>
+  </target>
+
+  <target name="Test" depends="JukeBox.jar">
+    <junit printsummary="yes" haltonfailure="no">
+      <formatter type="plain" usefile="false" />
+      <classpath>
+        <pathelement path="${build.dir}" />
+        <pathelement location="${lib.dir}/junit.jar" />
+        <pathelement location="${lib.dir}/hamcrest-core.jar" />
+      </classpath>
+      <batchtest fork="yes">
+        <fileset dir="${src.dir}">
+          <include name="**/*Test*.java" />
+        </fileset>
+      </batchtest>
+    </junit>
+  </target>
+
+</project>
