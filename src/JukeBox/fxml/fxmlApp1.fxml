@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="710.0" prefWidth="1440.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="JukeBox.ControladorApp">
+  <children>
+    <TabPane layoutX="0.0" layoutY="0.0" prefHeight="717.0" prefWidth="1449.0" tabClosingPolicy="UNAVAILABLE">
+      <tabs>
+        <Tab text="Agrega">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <children>
+                <Accordion layoutX="0.0" layoutY="0.0" minWidth="1449.0" prefHeight="686.0" prefWidth="1449.0">
+                  <expandedPane>
+                    <TitledPane fx:id="x1" animated="false" text="Local">
+                      <content>
+                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="638.0" prefWidth="1484.0">
+                          <children>
+                            <TabPane layoutX="0.0" layoutY="0.0" prefHeight="616.0" prefWidth="1445.0" tabClosingPolicy="UNAVAILABLE">
+                              <tabs>
+                                <Tab text="Banda">
+                                  <content>
+                                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                      <children>
+                                        <Label layoutX="18.0" layoutY="25.0" prefWidth="113.0" text="Nombre de la Banda:" textAlignment="RIGHT" />
+                                        <TextField fx:id="agBaNom" layoutX="162.0" layoutY="19.0" prefWidth="200.0" />
+                                        <Button layoutX="162.0" layoutY="63.0" mnemonicParsing="false" onAction="#setbandaIm" prefWidth="200.0" text="Buscar" />
+                                        <Label layoutX="18.0" layoutY="68.0" text="Ilustración:" />
+                                        <Button layoutX="19.0" layoutY="298.0" mnemonicParsing="false" onAction="#agregaBanda" prefWidth="344.0" text="Listo!" />
+                                        <Label layoutX="19.0" layoutY="106.0" text="Biografía:" />
+                                        <TextArea fx:id="agBaBio" layoutX="162.0" layoutY="106.0" prefWidth="200.0" wrapText="true" />
+                                        <Text fx:id="agBaErr" fill="#990000" layoutX="19.0" layoutY="334.0" scaleX="1.0" scaleY="1.1814492867631634" strokeType="OUTSIDE" strokeWidth="0.0" text="" wrappingWidth="300.0">
+                                          <font>
+                                            <Font size="14.0" />
+                                          </font>
+                                        </Text>
+                                      </children>
+                                    </AnchorPane>
+                                  </content>
+                                </Tab>
+                                <Tab text="Artista">
+                                  <content>
+                                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                      <children>
+                                        <Label layoutX="18.0" layoutY="25.0" prefWidth="113.0" text="Nombre del Artista:" textAlignment="RIGHT" />
+                                        <TextField layoutX="162.0" layoutY="19.0" prefWidth="200.0" />
+                                        <Button layoutX="162.0" layoutY="107.0" mnemonicParsing="false" onAction="#setartisIm" prefWidth="200.0" text="Buscar" />
+                                        <Label layoutX="18.0" layoutY="156.0" text="Biografía:" />
+                                        <Label layoutX="18.0" layoutY="112.0" text="Ilustración:" />
+                                        <Button layoutX="18.0" layoutY="342.0" mnemonicParsing="false" prefWidth="344.0" text="Listo!" />
+                                        <TextField layoutX="162.0" layoutY="63.0" prefWidth="200.0" />
+                                        <Label layoutX="18.0" layoutY="69.0" text="Integrante de:" />
+                                        <TextArea layoutX="162.0" layoutY="150.0" prefWidth="200.0" wrapText="true" />
+                                        <Label layoutX="362.0" layoutY="64.0" text="Puedes poner varios.">
+                                          <font>
+                                            <Font size="9.0" fx:id="x4" />
+                                          </font>
+                                        </Label>
+                                        <Label layoutX="362.0" layoutY="72.0" text="Sepáralos por un ; [Punto y Coma]">
+                                          <font>
+                                            <Font size="8.0" fx:id="x3" />
+                                          </font>
+                                        </Label>
+                                      </children>
+                                    </AnchorPane>
+                                  </content>
+                                </Tab>
+                                <Tab text="Álbum">
+                                  <content>
+                                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                      <children>
+                                        <Label layoutX="18.0" layoutY="25.0" prefWidth="113.0" text="Nombre del Álbum:" textAlignment="RIGHT" />
+                                        <SplitMenuButton layoutX="18.0" layoutY="63.0" mnemonicParsing="false" prefWidth="120.0" text="Artista/Banda">
+                                          <items>
+                                            <MenuItem mnemonicParsing="false" text="Artista" />
+                                            <MenuItem mnemonicParsing="false" text="Banda" />
+                                          </items>
+                                        </SplitMenuButton>
+                                        <TextField layoutX="162.0" layoutY="19.0" prefWidth="200.0" />
+                                        <TextField layoutX="162.0" layoutY="62.0" prefWidth="200.0" />
+                                        <Label layoutX="18.0" layoutY="112.0" prefHeight="21.999908447265625" text="Año:" />
+                                        <TextField layoutX="162.0" layoutY="106.0" prefWidth="70.0" />
+                                        <TextField layoutX="162.0" layoutY="150.0" prefWidth="70.0" />
+                                        <Button layoutX="162.0" layoutY="194.0" mnemonicParsing="false" onAction="#setalbumIm" prefWidth="200.0" text="Buscar" />
+                                        <Label layoutX="18.0" layoutY="156.0" text="Discos:" />
+                                        <Label layoutX="18.0" layoutY="199.0" text="Ilustración:" />
+                                        <Button layoutX="18.0" layoutY="238.0" mnemonicParsing="false" prefWidth="344.0" text="Listo!" />
+                                      </children>
+                                    </AnchorPane>
+                                  </content>
+                                </Tab>
+                                <Tab text="Canción">
+                                  <content>
+                                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                      <children>
+                                        <Label layoutX="18.0" layoutY="25.0" prefWidth="131.0" text="Nombre de la Canción:" textAlignment="RIGHT" />
+                                        <TextField id="AgCaAl" fx:id="agCaAlb" layoutX="162.0" layoutY="63.0" prefWidth="200.0" />
+                                        <TextField id="AgCaIn" fx:id="agCaInt" layoutX="162.0" layoutY="106.0" prefWidth="200.0" />
+                                        <Label layoutX="18.0" layoutY="289.0" prefHeight="21.999908447265625" text="Calificación" />
+                                        <TextField id="AgCaCal" fx:id="agCaCal" layoutX="162.0" layoutY="283.0" prefWidth="70.0" />
+                                        <TextField id="AgCaPis" fx:id="agCaPis" layoutX="53.0" layoutY="327.0" prefWidth="70.0" />
+                                        <Button layoutX="162.0" layoutY="371.0" mnemonicParsing="false" onAction="#setcanciAr" prefWidth="200.0" text="Buscar" />
+                                        <Label layoutX="18.0" layoutY="333.0" text="Pista:" />
+                                        <Label layoutX="18.0" layoutY="376.0" text="Ubicación:" />
+                                        <Button layoutX="18.0" layoutY="415.0" mnemonicParsing="false" onAction="#agregaCancion" prefWidth="344.0" text="Listo!" />
+                                        <TextField id="AgCanNom" fx:id="agCaNom" layoutX="161.0" layoutY="19.0" prefWidth="200.0" promptText="" text="" />
+                                        <Label layoutX="18.0" layoutY="69.0" text="Nombre del Álbum:" />
+                                        <CheckBox id="AgCaSen" fx:id="agCaSen" layoutX="374.0" layoutY="63.0" mnemonicParsing="false" prefHeight="21.999908447265625" text="Sencillo" />
+                                        <TextField id="AgCaCom" fx:id="agCaCom" layoutX="162.0" layoutY="150.0" prefWidth="200.0" />
+                                        <TextField id="AgCaGen" fx:id="agCaGen" layoutX="162.0" layoutY="194.0" prefWidth="200.0" />
+                                        <TextField id="AgCaAno" fx:id="agCaAno" layoutX="162.0" layoutY="238.0" prefWidth="70.0" />
+                                        <Label layoutX="18.0" layoutY="156.0" prefHeight="21.999908447265625" text="Compositor:" />
+                                        <Label layoutX="18.0" layoutY="197.0" text="Género:" />
+                                        <Label layoutX="18.0" layoutY="244.0" text="Año:" />
+                                        <TextField id="AgCaDis" fx:id="agCaDis" layoutX="179.0" layoutY="327.0" prefWidth="70.0" />
+                                        <Label layoutX="140.0" layoutY="333.0" text="Disco:" />
+                                        <Label layoutX="18.0" layoutY="106.0" prefHeight="21.999908447265625" text="Interprete:" />
+                                        <Label font="$x4" layoutX="361.0" layoutY="109.0" text="Puedes poner varios." />
+                                        <Label font="$x3" layoutX="361.0" layoutY="117.0" text="Sepáralos por un ; [Punto y Coma]" />
+                                      </children>
+                                    </AnchorPane>
+                                  </content>
+                                </Tab>
+                              </tabs>
+                            </TabPane>
+                          </children>
+                        </AnchorPane>
+                      </content>
+                    </TitledPane>
+                  </expandedPane>
+                  <panes>
+                    <fx:reference source="x1" />
+                    <TitledPane animated="false" expanded="false" text="Spotify">
+                      <content>
+                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                          <children>
+                            <Label layoutX="627.0" layoutY="299.0" text="Próximamente">
+                              <font>
+                                <Font size="30.0" />
+                              </font>
+                            </Label>
+                          </children>
+                        </AnchorPane>
+                      </content>
+                    </TitledPane>
+                  </panes>
+                </Accordion>
+              </children>
+            </AnchorPane>
+          </content>
+        </Tab>
+        <Tab text="Busca">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <children>
+                <TabPane layoutX="0.0" layoutY="0.0" prefHeight="686.0" prefWidth="1449.0" tabClosingPolicy="UNAVAILABLE">
+                  <tabs>
+                    <Tab text="Sencilla">
+                      <content>
+                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                          <children>
+                            <TextField layoutX="14.0" layoutY="14.0" prefWidth="200.0" />
+                            <Button layoutX="224.0" layoutY="14.0" mnemonicParsing="false" text="Busca!" />
+                            <TableView layoutX="0.0" layoutY="58.0" prefHeight="407.0" prefWidth="1449.0">
+                              <columns>
+                                <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="350.0" text="Nombre" />
+                                <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="250.0" text="Interprete(s)" />
+                                <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="100.0" text="Álbum" />
+                                <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="100.0" text="Género" />
+                                <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="100.0" text="Compositor" />
+                                <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="55.0" text="Año" />
+                                <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="75.0" text="Núm. Pista" />
+                                <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="75.0" text="Núm. Disco" />
+                                <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="75.0" text="Calificación" />
+                                <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="95.0" text="Reproducciones" />
+                                <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="100.0" text="Fecha de Inclusión" />
+                                <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="73.0" text="Ubicación" />
+                              </columns>
+                            </TableView>
+                            <TableView layoutX="0.0" layoutY="485.0" prefHeight="170.0" prefWidth="556.0">
+                              <columns>
+                                <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="180.0" text="Nombre" />
+                                <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="150.0" text="Artista" />
+                                <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="55.0" text="Año" />
+                                <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="75.0" text="Núm. Discos" />
+                                <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="94.0" text="Núm. Canciones" />
+                              </columns>
+                            </TableView>
+                            <Label layoutX="14.0" layoutY="36.0" prefHeight="21.000091552734375" text="Canciones">
+                              <font>
+                                <Font size="15.0" fx:id="x2" />
+                              </font>
+                            </Label>
+                            <TableView layoutX="576.0" layoutY="485.0" prefHeight="170.0" prefWidth="425.0">
+                              <columns>
+                                <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="425.0" text="Nombre" />
+                              </columns>
+                            </TableView>
+                            <Label font="$x2" layoutX="7.0" layoutY="465.0" text="Álbumes" />
+                            <Label font="$x2" layoutX="576.0" layoutY="465.0" text="Bandas" />
+                            <TableView layoutX="1024.0" layoutY="485.0" prefHeight="170.0" prefWidth="425.0">
+                              <columns>
+                                <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="212.0" text="Nombre" />
+                                <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="211.0" text="Integrante de" />
+                              </columns>
+                            </TableView>
+                            <Label font="$x2" layoutX="1024.0" layoutY="465.0" text="Artistas" />
+                          </children>
+                        </AnchorPane>
+                      </content>
+                    </Tab>
+                    <Tab text="Avanzada">
+                      <content>
+                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                          <children>
+                            <TabPane layoutX="0.0" layoutY="0.0" prefHeight="655.0" prefWidth="1449.0" tabClosingPolicy="UNAVAILABLE">
+                              <tabs>
+                                <Tab text="Canciones">
+                                  <content>
+                                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                      <children>
+                                        <TextField layoutX="116.0" layoutY="14.0" prefWidth="200.0" />
+                                        <Label layoutX="14.0" layoutY="17.0" text="Busqueda:" />
+                                        <TextField layoutX="105.0" layoutY="58.0" prefWidth="200.0" />
+                                        <Label layoutX="14.0" layoutY="61.0" text="Interpretada por" />
+                                        <Label font="$x4" layoutX="305.0" layoutY="61.0" text="Puedes poner varios." />
+                                        <Label font="$x3" layoutX="305.0" layoutY="69.0" text="Sepáralos por un ; [Punto y Coma]" />
+                                        <Label layoutX="14.0" layoutY="108.0" text="Compuesta por" />
+                                        <Label font="$x4" layoutX="305.0" layoutY="105.0" text="Puedes poner varios." />
+                                        <Label font="$x3" layoutX="305.0" layoutY="113.0" text="Sepáralos por un ; [Punto y Coma]" />
+                                        <TextField layoutX="105.0" layoutY="102.0" prefWidth="200.0" />
+                                        <Label layoutX="431.0" layoutY="61.0" text="ó por algún inegrante de:" />
+                                        <TextField layoutX="568.0" layoutY="58.0" prefWidth="200.0" />
+                                        <Label font="$x3" layoutX="568.0" layoutY="77.0" text="Banda" />
+                                        <Label font="$x3" layoutX="116.0" layoutY="33.0" text="Canción" />
+                                        <Label layoutX="317.0" layoutY="17.0" text="lanzada entre" />
+                                        <TextField layoutX="389.0" layoutY="14.0" prefWidth="100.0" />
+                                        <Label layoutX="492.0" layoutY="17.0" text="-" />
+                                        <TextField layoutX="499.0" layoutY="14.0" prefWidth="100.0" />
+                                        <Label font="$x3" layoutX="389.0" layoutY="33.0" text="DD-MM-AAAA" />
+                                        <Label font="$x3" layoutX="499.0" layoutY="33.0" text="DD-MM-AAAA" />
+                                        <Label layoutX="599.0" layoutY="17.0" text="de entre" />
+                                        <TextField layoutX="645.0" layoutY="14.0" prefWidth="50.0" />
+                                        <Label layoutX="698.0" layoutY="17.0" text="-" />
+                                        <TextField layoutX="705.0" layoutY="14.0" prefWidth="50.0" />
+                                        <Label layoutX="755.0" layoutY="17.0" text="estrellas y entre" />
+                                        <Label font="$x3" layoutX="689.0" layoutY="33.0" text="[1 - 5]" />
+                                        <TextField layoutX="838.0" layoutY="14.0" prefWidth="50.0" />
+                                        <Label layoutX="891.0" layoutY="17.0" text="-" />
+                                        <TextField layoutX="898.0" layoutY="14.0" prefWidth="50.0" />
+                                        <Label layoutX="948.0" layoutY="17.0" text="reproducciones." />
+                                        <Label layoutX="432.0" layoutY="105.0" text="agregada entre" />
+                                        <TextField layoutX="517.0" layoutY="102.0" prefWidth="100.0" />
+                                        <Label layoutX="620.0" layoutY="105.0" text="-" />
+                                        <TextField layoutX="627.0" layoutY="102.0" prefWidth="100.0" />
+                                        <Label font="$x3" layoutX="517.0" layoutY="121.0" text="DD-MM-AAAA" />
+                                        <Label font="$x3" layoutX="627.0" layoutY="121.0" text="DD-MM-AAAA" />
+                                        <CheckBox layoutX="74.0" layoutY="142.0" mnemonicParsing="false" text="Sólo archivos locales">
+                                          <font>
+                                            <Font size="10.0" fx:id="x5" />
+                                          </font>
+                                        </CheckBox>
+                                        <Button layoutX="14.0" layoutY="139.0" mnemonicParsing="false" text="Busca!" />
+                                        <TableView layoutX="0.0" layoutY="174.0" prefHeight="450.0" prefWidth="1449.0">
+                                          <columns>
+                                            <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="350.0" text="Nombre" />
+                                            <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="250.0" text="Interprete(s)" />
+                                            <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="100.0" text="Álbum" />
+                                            <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="100.0" text="Género" />
+                                            <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="100.0" text="Compositor" />
+                                            <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="55.0" text="Año" />
+                                            <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="75.0" text="Núm. Pista" />
+                                            <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="75.0" text="Núm. Disco" />
+                                            <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="75.0" text="Calificación" />
+                                            <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="95.0" text="Reproducciones" />
+                                            <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="100.0" text="Fecha de Inclusión" />
+                                            <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="73.0" text="Ubicación" />
+                                          </columns>
+                                        </TableView>
+                                      </children>
+                                    </AnchorPane>
+                                  </content>
+                                </Tab>
+                                <Tab text="Álbumes">
+                                  <content>
+                                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                      <children>
+                                        <TextField layoutX="116.0" layoutY="14.0" prefWidth="200.0" />
+                                        <Label layoutX="14.0" layoutY="17.0" text="Busqueda:" />
+                                        <TextField layoutX="105.0" layoutY="58.0" prefWidth="200.0" />
+                                        <Label layoutX="14.0" layoutY="61.0" text="Perteneciente a" />
+                                        <Label font="$x4" layoutX="305.0" layoutY="61.0" text="Puedes poner varios." />
+                                        <Label font="$x3" layoutX="305.0" layoutY="69.0" text="Sepáralos por un ; [Punto y Coma]" />
+                                        <Label font="$x3" layoutX="105.0" layoutY="77.0" text="Artista/Banda" />
+                                        <Label font="$x3" layoutX="116.0" layoutY="33.0" text="Álbum" />
+                                        <Label layoutX="317.0" layoutY="17.0" text="lanzado entre" />
+                                        <TextField layoutX="389.0" layoutY="14.0" prefWidth="100.0" />
+                                        <Label layoutX="492.0" layoutY="17.0" text="-" />
+                                        <TextField layoutX="499.0" layoutY="14.0" prefWidth="100.0" />
+                                        <Label font="$x3" layoutX="389.0" layoutY="33.0" text="DD-MM-AAAA" />
+                                        <Label font="$x3" layoutX="499.0" layoutY="33.0" text="DD-MM-AAAA" />
+                                        <Label layoutX="599.0" layoutY="17.0" text="de entre" />
+                                        <TextField layoutX="645.0" layoutY="14.0" prefWidth="50.0" />
+                                        <Label layoutX="698.0" layoutY="17.0" text="-" />
+                                        <TextField layoutX="705.0" layoutY="14.0" prefWidth="50.0" />
+                                        <Label layoutX="755.0" layoutY="17.0" text="canciones y entre" />
+                                        <Label font="$x3" layoutX="689.0" layoutY="33.0" text="[1 - 5]" />
+                                        <TextField layoutX="849.0" layoutY="14.0" prefWidth="50.0" />
+                                        <Label layoutX="902.0" layoutY="17.0" text="-" />
+                                        <TextField layoutX="909.0" layoutY="14.0" prefWidth="50.0" />
+                                        <Label layoutX="959.0" layoutY="17.0" text="discos." />
+                                        <Button layoutX="14.0" layoutY="88.0" mnemonicParsing="false" text="Busca!" />
+                                        <TableView layoutX="0.0" layoutY="121.0" prefHeight="503.0" prefWidth="1449.0">
+                                          <columns>
+                                            <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="180.0" text="Nombre" />
+                                            <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="150.0" text="Artista" />
+                                            <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="55.0" text="Año" />
+                                            <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="75.0" text="Núm. Discos" />
+                                            <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="94.0" text="Núm. Canciones" />
+                                          </columns>
+                                        </TableView>
+                                      </children>
+                                    </AnchorPane>
+                                  </content>
+                                </Tab>
+                              </tabs>
+                            </TabPane>
+                          </children>
+                        </AnchorPane>
+                      </content>
+                    </Tab>
+                  </tabs>
+                </TabPane>
+              </children>
+            </AnchorPane>
+          </content>
+        </Tab>
+        <Tab text="Reproduce">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="679.0" prefWidth="1440.0">
+              <children>
+                <Separator layoutX="24.0" layoutY="341.0" minHeight="2.0" prefHeight="2.0" prefWidth="1402.0" />
+                <Button layoutX="633.0" layoutY="259.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="53.0" text="&lt;" />
+                <Button layoutX="704.0" layoutY="254.0" mnemonicParsing="false" text="Play" />
+                <Button layoutX="699.0" layoutY="285.0" mnemonicParsing="false" text="Pausa" />
+                <Button layoutX="763.0" layoutY="258.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="53.0" text="&gt;" />
+                <Slider layoutX="633.0" layoutY="310.0" prefWidth="183.0" value="50.0" />
+                <ProgressBar layoutX="475.0" layoutY="241.0" prefWidth="500.0" progress="0.0" />
+                <Label font="$x5" layoutX="705.0" layoutY="323.0" text="Volumen" />
+                <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="625.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true" />
+                <ImageView fitHeight="300.0" fitWidth="300.0" layoutX="24.0" layoutY="363.0" pickOnBounds="true" preserveRatio="true" />
+                <Label layoutX="671.0" layoutY="217.0" text="&lt;Nombre Canción&gt;" />
+                <Label font="$x2" layoutX="664.0" layoutY="393.0" text="&lt;Nombre Artista&gt;" />
+                <ImageView fitHeight="300.0" fitWidth="300.0" layoutX="1126.0" layoutY="363.0" pickOnBounds="true" preserveRatio="true" />
+                <Label font="$x2" layoutX="663.0" layoutY="363.0" text="&lt;Nombre Álbum&gt;" />
+                <Label font="$x5" layoutX="709.0" layoutY="379.0" text="&lt;Año&gt;" />
+                <Label layoutX="475.0" layoutY="418.0" text="&lt;Biografía&gt;" />
+              </children>
+            </AnchorPane>
+          </content>
+        </Tab>
+        <Tab text="Configura">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+          </content>
+        </Tab>
+      </tabs>
+    </TabPane>
+  </children>
+</AnchorPane>

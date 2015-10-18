@@ -42,6 +42,9 @@
       </classpath>
       <compilerarg value="-Xlint:unchecked"/>
     </javac>
+    <copy todir="${build.dir}/Jukebox/fxml">
+      <fileset dir="${src.dir}/Jukebox/fxml"/>
+    </copy>
   </target>
 
   <target name="Document" depends="JukeBox.jar">
