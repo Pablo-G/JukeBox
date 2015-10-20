@@ -35,9 +35,12 @@
                                         <Button layoutX="19.0" layoutY="298.0" mnemonicParsing="false" onAction="#agregaBanda" prefWidth="344.0" text="Listo!" />
                                         <Label layoutX="19.0" layoutY="106.0" text="Biografía:" />
                                         <TextArea fx:id="agBaBio" layoutX="162.0" layoutY="106.0" prefWidth="200.0" wrapText="true" />
-                                        <Text fx:id="agBaErr" fill="#990000" layoutX="19.0" layoutY="334.0" scaleX="1.0" scaleY="1.1814492867631634" strokeType="OUTSIDE" strokeWidth="0.0" text="" wrappingWidth="300.0">
+                                        <Text fx:id="agBaErr" layoutX="19.0" layoutY="334.0" scaleX="1.0" scaleY="1.1814492867631634" strokeType="OUTSIDE" strokeWidth="0.0" text="" wrappingWidth="300.0">
+                                          <fill>
+                                            <Color blue="0.000" green="0.000" red="0.600" fx:id="x6" />
+                                          </fill>
                                           <font>
-                                            <Font size="14.0" />
+                                            <Font size="14.0" fx:id="x7" />
                                           </font>
                                         </Text>
                                       </children>
@@ -49,14 +52,14 @@
                                     <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                       <children>
                                         <Label layoutX="18.0" layoutY="25.0" prefWidth="113.0" text="Nombre del Artista:" textAlignment="RIGHT" />
-                                        <TextField layoutX="162.0" layoutY="19.0" prefWidth="200.0" />
+                                        <TextField fx:id="agArNom" layoutX="162.0" layoutY="19.0" prefWidth="200.0" />
                                         <Button layoutX="162.0" layoutY="107.0" mnemonicParsing="false" onAction="#setartisIm" prefWidth="200.0" text="Buscar" />
                                         <Label layoutX="18.0" layoutY="156.0" text="Biografía:" />
                                         <Label layoutX="18.0" layoutY="112.0" text="Ilustración:" />
-                                        <Button layoutX="18.0" layoutY="342.0" mnemonicParsing="false" prefWidth="344.0" text="Listo!" />
-                                        <TextField layoutX="162.0" layoutY="63.0" prefWidth="200.0" />
+                                        <Button layoutX="18.0" layoutY="342.0" mnemonicParsing="false" onAction="#agregaArtista" prefWidth="344.0" text="Listo!" />
+                                        <TextField fx:id="agArInt" layoutX="162.0" layoutY="63.0" prefWidth="200.0" />
                                         <Label layoutX="18.0" layoutY="69.0" text="Integrante de:" />
-                                        <TextArea layoutX="162.0" layoutY="150.0" prefWidth="200.0" wrapText="true" />
+                                        <TextArea fx:id="agArBio" layoutX="162.0" layoutY="150.0" prefWidth="200.0" wrapText="true" />
                                         <Label layoutX="362.0" layoutY="64.0" text="Puedes poner varios.">
                                           <font>
                                             <Font size="9.0" fx:id="x4" />
@@ -67,6 +70,7 @@
                                             <Font size="8.0" fx:id="x3" />
                                           </font>
                                         </Label>
+                                        <Text id="agBaErr" fx:id="agArErr" fill="$x6" font="$x7" layoutX="18.0" layoutY="380.0" scaleX="1.0" scaleY="1.1814492867631634" strokeType="OUTSIDE" strokeWidth="0.0" text="" wrappingWidth="300.0" />
                                       </children>
                                     </AnchorPane>
                                   </content>
@@ -76,21 +80,18 @@
                                     <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                       <children>
                                         <Label layoutX="18.0" layoutY="25.0" prefWidth="113.0" text="Nombre del Álbum:" textAlignment="RIGHT" />
-                                        <SplitMenuButton layoutX="18.0" layoutY="63.0" mnemonicParsing="false" prefWidth="120.0" text="Artista/Banda">
-                                          <items>
-                                            <MenuItem mnemonicParsing="false" text="Artista" />
-                                            <MenuItem mnemonicParsing="false" text="Banda" />
-                                          </items>
-                                        </SplitMenuButton>
-                                        <TextField layoutX="162.0" layoutY="19.0" prefWidth="200.0" />
-                                        <TextField layoutX="162.0" layoutY="62.0" prefWidth="200.0" />
+                                        <TextField fx:id="agAlNom" layoutX="162.0" layoutY="19.0" prefWidth="200.0" />
+                                        <TextField id="agAlBan" fx:id="agAlInt" layoutX="162.0" layoutY="62.0" prefWidth="200.0" />
                                         <Label layoutX="18.0" layoutY="112.0" prefHeight="21.999908447265625" text="Año:" />
-                                        <TextField layoutX="162.0" layoutY="106.0" prefWidth="70.0" />
-                                        <TextField layoutX="162.0" layoutY="150.0" prefWidth="70.0" />
+                                        <TextField id="agAlano" fx:id="agAlAno" layoutX="162.0" layoutY="106.0" prefWidth="70.0" />
+                                        <TextField fx:id="agAlDis" layoutX="162.0" layoutY="150.0" prefWidth="70.0" />
                                         <Button layoutX="162.0" layoutY="194.0" mnemonicParsing="false" onAction="#setalbumIm" prefWidth="200.0" text="Buscar" />
                                         <Label layoutX="18.0" layoutY="156.0" text="Discos:" />
                                         <Label layoutX="18.0" layoutY="199.0" text="Ilustración:" />
-                                        <Button layoutX="18.0" layoutY="238.0" mnemonicParsing="false" prefWidth="344.0" text="Listo!" />
+                                        <Button layoutX="18.0" layoutY="238.0" mnemonicParsing="false" onAction="#agregaAlbum" prefWidth="344.0" text="Listo!" />
+                                        <Text id="agBaErr" fx:id="agAlErr" fill="$x6" font="$x7" layoutX="18.0" layoutY="276.0" scaleX="1.0" scaleY="1.1814492867631634" strokeType="OUTSIDE" strokeWidth="0.0" text="" wrappingWidth="300.0" />
+                                        <Label layoutX="18.0" layoutY="68.0" prefWidth="113.0" text="Banda/Artista:" textAlignment="RIGHT" />
+                                        <CheckBox fx:id="agAlArt" layoutX="371.0" layoutY="65.0" mnemonicParsing="false" text="Artista" />
                                       </children>
                                     </AnchorPane>
                                   </content>
@@ -123,6 +124,7 @@
                                         <Label layoutX="18.0" layoutY="106.0" prefHeight="21.999908447265625" text="Interprete:" />
                                         <Label font="$x4" layoutX="361.0" layoutY="109.0" text="Puedes poner varios." />
                                         <Label font="$x3" layoutX="361.0" layoutY="117.0" text="Sepáralos por un ; [Punto y Coma]" />
+                                        <Text id="agBaErr" fx:id="agCaErr" fill="$x6" font="$x7" layoutX="18.0" layoutY="453.0" scaleX="1.0" scaleY="1.1814492867631634" strokeType="OUTSIDE" strokeWidth="0.0" text="" wrappingWidth="300.0" />
                                       </children>
                                     </AnchorPane>
                                   </content>
