@@ -35,7 +35,7 @@ public class ControladorBD{
                    " Ano             INT                NOT NULL," + 
                    " Calificacion    INT                NOT NULL," + 
                    " Reproducciones  INT                NOT NULL," + 
-                   " FechaIncl       DATE               NOT NULL," + 
+                   " FechaIncl       DATETIME           NOT NULL," + 
                    " Ubicacion       TEXT               NOT NULL," + 
                    " Ruta            TEXT               NOT NULL);"; 
       		statem.executeUpdate(sql);
@@ -184,7 +184,7 @@ public class ControladorBD{
 	    	ResultSet rsa = statem.executeQuery("SELECT Nombre FROM Artistas WHERE Nombre LIKE '" + s + "';");
 	    	ResultSet rsb = statem.executeQuery("SELECT Nombre FROM Bandas WHERE Nombre LIKE '" + s + "';");
 
-	    	if(!rsa.next() && !rsb.next()){
+	    	if(!(rsa.next() || rsb.next())){
 	    		throw new Exception(s + " no ha sido registrado en la Base de Datos!");
 	    	}
 	    	rsa.close();
@@ -205,6 +205,7 @@ public class ControladorBD{
        	try{
 	    	statem.executeUpdate(sql);
 	    }catch(Exception e){
+	    		System.out.println(sql);
 	    		throw e;
 	    		//throw new Exception(nombre + " ya se encuentra registrado en la Base de Datos!");
 	    }
