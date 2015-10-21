@@ -104,7 +104,12 @@ public class ControladorBD{
 
 	public void agregaArtista(String nombre, String ilustr, String biogra, String inteDe) throws Exception{
 
-	    String[] inteDeA = inteDe.split(";");
+		String[] inteDeA;
+		if (!inteDe.equals("")) {
+	    	inteDeA = inteDe.split(";");
+		}else{
+			inteDeA = new String[0];
+		}
 
 	    for (String s : inteDeA) {
 	    	ResultSet rs = statem.executeQuery("SELECT Nombre FROM Bandas WHERE Nombre LIKE '" + s + "';");
@@ -182,13 +187,15 @@ public class ControladorBD{
 
 	    for (String s : inteDeC) {
 	    	ResultSet rsa = statem.executeQuery("SELECT Nombre FROM Artistas WHERE Nombre LIKE '" + s + "';");
+	    	boolean brsa = rsa.next();
+	    	rsa.close();
 	    	ResultSet rsb = statem.executeQuery("SELECT Nombre FROM Bandas WHERE Nombre LIKE '" + s + "';");
+	    	boolean brsb = rsb.next();
+	    	rsb.close();
 
-	    	if(!(rsa.next() || rsb.next())){
+	    	if(!(brsa || brsb)){
 	    		throw new Exception(s + " no ha sido registrado en la Base de Datos!");
 	    	}
-	    	rsa.close();
-	    	rsb.close();
 	    }
 
 		if (!sencillo) {
@@ -205,9 +212,7 @@ public class ControladorBD{
        	try{
 	    	statem.executeUpdate(sql);
 	    }catch(Exception e){
-	    		System.out.println(sql);
-	    		throw e;
-	    		//throw new Exception(nombre + " ya se encuentra registrado en la Base de Datos!");
+	    	throw new Exception(nombre + " ya se encuentra registrado en la Base de Datos!");
 	    }
 	    conect.commit();
 
@@ -229,11 +234,13 @@ public class ControladorBD{
 		    rsc.close();
 	    	numc++;
 
-		    sql = "UPDATE Albumes SET NumCanciones = " + numc + " WHERE Nombre=" + album + ";";
+		    sql = "UPDATE Albumes SET NumCanciones = " + numc + " WHERE Nombre='" + album + "';";
 		    statem.executeUpdate(sql);
 		    conect.commit();
 	    }
 		
+	    imprimeTablas();
+
 	}
 
 	public void imprimeTablas(){

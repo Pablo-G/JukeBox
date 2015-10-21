@@ -8,6 +8,10 @@ import javafx.event.ActionEvent;
 import javafx.stage.FileChooser;
 import java.io.File;
 import javafx.scene.text.Text;
+import java.util.LinkedList;
+import javafx.collections.*;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TableColumn;
 
 public class ControladorApp{
 	
@@ -80,7 +84,7 @@ public class ControladorApp{
     		return;
     	}
     	try{
-    		cBD.agregaBanda(agBaNom.getText(), bandaIm.toString(), agBaBio.getText());
+    		cBD.agregaBanda(agBaNom.getText().trim(), bandaIm.toString().trim(), agBaBio.getText().trim());
     	}catch(Exception e){
     		agBaErr.setText(e.getMessage());
     		agBaNom.setText("");
@@ -100,12 +104,12 @@ public class ControladorApp{
     @FXML private Text agArErr;
 
     @FXML protected void agregaArtista(ActionEvent event){
-    	if (artisIm == null || agArNom.getText().equals("") || agArInt.getText().equals("") || agArBio.getText().equals("")) {
+    	if (artisIm == null || agArNom.getText().equals("") || agArBio.getText().equals("")) {
     		agArErr.setText("Debes llenar todos los campos!");
     		return;
     	}
     	try{
-    		cBD.agregaArtista(agArNom.getText(), artisIm.toString(), agArBio.getText(), agArInt.getText());
+    		cBD.agregaArtista(agArNom.getText().trim(), artisIm.toString().trim(), agArBio.getText().trim(), agArInt.getText().trim());
     	}catch(Exception e){
     		agArErr.setText(e.getMessage());
     		agArNom.setText("");
@@ -133,8 +137,17 @@ public class ControladorApp{
     		agAlErr.setText("Debes llenar todos los campos!");
     		return;
     	}
+
+        try{
+            Integer.parseInt(agAlAno.getText());
+            Integer.parseInt(agAlDis.getText());
+        }catch(Exception e){
+            agAlErr.setText("Formato Invalido en Año|Num.Discos");
+            return;            
+        }
+
     	try{
-    		cBD.agregaAlbum(agAlNom.getText(), albumIm.toString(), agAlInt.getText(), Integer.parseInt(agAlAno.getText()), Integer.parseInt(agAlDis.getText()), agAlArt.isSelected());
+    		cBD.agregaAlbum(agAlNom.getText().trim(), albumIm.toString().trim(), agAlInt.getText().trim(), Integer.parseInt(agAlAno.getText()), Integer.parseInt(agAlDis.getText()), agAlArt.isSelected());
     	}catch(Exception e){
     		agAlErr.setText(e.getMessage());
     		agAlNom.setText("");
@@ -167,20 +180,55 @@ public class ControladorApp{
 	@FXML private Text agCaErr;
 
     @FXML protected void agregaCancion(ActionEvent event){
-    	if (canciAr == null || agCaNom.getText().equals("") || agCaAlb.getText().equals("") || 
-    		agCaInt.getText().equals("") || agCaCom.getText().equals("") ||
-    		agCaGen.getText().equals("") || agCaAno.getText().equals("") ||
-    		agCaCal.getText().equals("") || agCaPis.getText().equals("") ||
-    		agCaDis.getText().equals("")) {
-    		agCaErr.setText("Debes llenar todos los campos!");
-    		return;
-    	}
+        if (!agCaSen.isSelected()) {
+        	if (canciAr == null || agCaNom.getText().equals("") || agCaAlb.getText().equals("") || 
+        		agCaInt.getText().equals("") || agCaCom.getText().equals("") ||
+        		agCaGen.getText().equals("") || agCaAno.getText().equals("") ||
+        		agCaCal.getText().equals("") || agCaPis.getText().equals("") ||
+        		agCaDis.getText().equals("")) {
+        		agCaErr.setText("Debes llenar todos los campos!");
+        		return;
+        	}    
+        }else{
+            if (canciAr == null || agCaNom.getText().equals("") || 
+                agCaInt.getText().equals("") || agCaCom.getText().equals("") ||
+                agCaGen.getText().equals("") || agCaAno.getText().equals("") ||
+                agCaCal.getText().equals("")) {
+                agCaErr.setText("Debes llenar todos los campos!");
+                return;
+            }
+        }
+
+        try{
+            if (!agCaAno.equals("")) {
+                Integer.parseInt(agCaAno.getText());
+            }
+            if (!agCaCal.equals("")) {
+                Integer.parseInt(agCaCal.getText());
+            }
+            if (!agCaSen.isSelected()) {
+                Integer.parseInt(agCaPis.getText());
+                Integer.parseInt(agCaDis.getText());
+            }
+        }catch(Exception e){
+            agCaErr.setText("Formato Invalido en Año|Calificación|Num.Pista|Disco");
+            return;            
+        }
+
     	try{
-    		cBD.agregaCancion(agCaNom.getText(), agCaAlb.getText(), 
-    						  agCaInt.getText(), agCaCom.getText(),
-    						  agCaGen.getText(), Integer.parseInt(agCaAno.getText()),
-    						  Integer.parseInt(agCaCal.getText()), Integer.parseInt(agCaPis.getText()),
-    						  Integer.parseInt(agCaDis.getText()), agCaSen.isSelected(), canciAr.toString());
+            if (!agCaSen.isSelected()) {
+        		cBD.agregaCancion(agCaNom.getText().trim(), agCaAlb.getText().trim(), 
+        						  agCaInt.getText().trim(), agCaCom.getText().trim(),
+        						  agCaGen.getText().trim(), Integer.parseInt(agCaAno.getText()),
+        						  Integer.parseInt(agCaCal.getText()), Integer.parseInt(agCaPis.getText()),
+        						  Integer.parseInt(agCaDis.getText()), agCaSen.isSelected(), canciAr.toString().trim());   
+            }else{
+                cBD.agregaCancion(agCaNom.getText().trim(), agCaAlb.getText().trim(), 
+                                  agCaInt.getText().trim(), agCaCom.getText().trim(),
+                                  agCaGen.getText().trim(), Integer.parseInt(agCaAno.getText()),
+                                  Integer.parseInt(agCaCal.getText()), 0,
+                                  0, agCaSen.isSelected(), canciAr.toString().trim());   
+            }
     	}catch(Exception e){
     		agCaErr.setText(e.getMessage());
     		agCaNom.setText("");
@@ -210,4 +258,135 @@ public class ControladorApp{
     	agCaErr.setText("");
     }
 
+    @FXML private TextField buSeNom;
+    @FXML private TableView<Cancion> buTaCa;
+    @FXML private TableColumn<Cancion, String> buCoCNom;
+    @FXML private TableColumn<Cancion, String> buCoCInt;
+    @FXML private TableColumn<Cancion, String> buCoCAlb;
+    @FXML private TableColumn<Cancion, String> buCoCGen;
+    @FXML private TableColumn<Cancion, String> buCoCCom;
+    @FXML private TableColumn<Cancion, Number> buCoCAno;
+    @FXML private TableColumn<Cancion, Number> buCoCNup;
+    @FXML private TableColumn<Cancion, Number> buCoCNud;
+    @FXML private TableColumn<Cancion, Number> buCoCCal;
+    @FXML private TableColumn<Cancion, Number> buCoCRep;
+    @FXML private TableColumn<Cancion, String> buCoCFec;
+    @FXML private TableColumn<Cancion, String> buCoCUbi;
+
+    @FXML private TableView<Album> buTaAl;
+    @FXML private TableColumn<Album, String> buCoANom;
+    @FXML private TableColumn<Album, String> buCoAArt;
+    @FXML private TableColumn<Album, Number> buCoAAno;
+    @FXML private TableColumn<Album, Number> buCoANud;
+    @FXML private TableColumn<Album, Number> buCoANuc;
+
+    @FXML private TableView<Banda> buTaBa;
+    @FXML private TableColumn<Banda, String> buCoBNom;
+
+    @FXML private TableView<Artista> buTaAr;
+    @FXML private TableColumn<Artista, String> buCoArNom;
+    @FXML private TableColumn<Artista, String> buCoArInt;
+
+    @FXML private void initialize() {
+        buCoCNom.setCellValueFactory(cellData -> cellData.getValue().getNombre());
+        buCoCInt.setCellValueFactory(cellData -> cellData.getValue().getInterprete());
+        buCoCAlb.setCellValueFactory(cellData -> cellData.getValue().getAlbum());
+        buCoCGen.setCellValueFactory(cellData -> cellData.getValue().getGenero());
+        buCoCCom.setCellValueFactory(cellData -> cellData.getValue().getCompositor());
+        buCoCAno.setCellValueFactory(cellData -> cellData.getValue().getAno());
+        buCoCNup.setCellValueFactory(cellData -> cellData.getValue().getPista());
+        buCoCNud.setCellValueFactory(cellData -> cellData.getValue().getDisco());
+        buCoCCal.setCellValueFactory(cellData -> cellData.getValue().getCalificacion());
+        buCoCRep.setCellValueFactory(cellData -> cellData.getValue().getReproducciones());
+        buCoCFec.setCellValueFactory(cellData -> cellData.getValue().getFechaIncl());
+        buCoCUbi.setCellValueFactory(cellData -> cellData.getValue().getUbicacion());
+        buCoANom.setCellValueFactory(cellData -> cellData.getValue().getNombre());
+        buCoAArt.setCellValueFactory(cellData -> cellData.getValue().getArtista());
+        buCoAAno.setCellValueFactory(cellData -> cellData.getValue().getAno());
+        buCoANud.setCellValueFactory(cellData -> cellData.getValue().getNumdis());
+        buCoANuc.setCellValueFactory(cellData -> cellData.getValue().getNumcan());
+        buCoBNom.setCellValueFactory(cellData -> cellData.getValue().getNombre());
+        buCoArNom.setCellValueFactory(cellData -> cellData.getValue().getNombre());
+        buCoArInt.setCellValueFactory(cellData -> cellData.getValue().getIntegrant());
+    }
+
+    @SuppressWarnings("unchecked") @FXML protected void buscaSencilla(ActionEvent event){
+        buTaCa.setItems(null);
+        buTaAl.setItems(null);
+        buTaBa.setItems(null);
+        buTaAr.setItems(null);
+        if (!buSeNom.equals("")) {
+            LinkedList<LinkedList> result = new LinkedList<LinkedList>();
+            try{
+                ControladorBusquedaBD bcan = new ControladorBusquedaBD(result, "Cancion", buSeNom.getText());
+                ControladorBusquedaBD balb = new ControladorBusquedaBD(result, "Album", buSeNom.getText());
+                ControladorBusquedaBD bban = new ControladorBusquedaBD(result, "Banda", buSeNom.getText());
+                ControladorBusquedaBD bart = new ControladorBusquedaBD(result, "Artista", buSeNom.getText());
+                new Thread(bcan).start();
+                new Thread(balb).start();
+                new Thread(bban).start();
+                new Thread(bart).start();
+            }catch(Exception e){
+                //Inalcanzable
+            }
+            buSeNom.setText("");
+
+            try{
+                    synchronized(result){
+                        for (int i = 0; i < 4 ; i++) {
+                            if (result.size() == 0) {
+                                result.wait();
+                            }
+                            LinkedList l = result.pop();
+                            if (l.size() != 0) {
+                                Object o = l.pop();
+                                l.push(o);
+                                switch(o.getClass().toString()){
+                                    case "class JukeBox.Cancion":{
+                                        LinkedList<Cancion> lC = (LinkedList<Cancion>)l;
+                                        ObservableList<Cancion> cD = FXCollections.observableArrayList();
+                                        for (Cancion c: lC) {
+                                            cD.add(c);
+                                        }
+                                        buTaCa.setItems(cD);
+                                        break;
+                                    }
+                                    case "class JukeBox.Album":{
+                                        LinkedList<Album> lA = (LinkedList<Album>)l;
+                                        ObservableList<Album> aD = FXCollections.observableArrayList();
+                                        for (Album a: lA) {
+                                            aD.add(a);
+                                        }
+                                        buTaAl.setItems(aD);
+                                        break;
+                                    }
+                                    case "class JukeBox.Banda":{
+                                        LinkedList<Banda> lB = (LinkedList<Banda>)l;
+                                        ObservableList<Banda> bD = FXCollections.observableArrayList();
+                                        for (Banda b: lB) {
+                                            bD.add(b);
+                                        }
+                                        buTaBa.setItems(bD);
+                                        break;                     
+                                    }
+                                    case "class JukeBox.Artista":{
+                                        LinkedList<Artista> lA = (LinkedList<Artista>)l;
+                                        ObservableList<Artista> aD = FXCollections.observableArrayList();
+                                        for (Artista a: lA) {
+                                            aD.add(a);
+                                        }
+                                        buTaAr.setItems(aD);
+                                        break;                                          
+                                    }
+                                }
+                            }else{
+                                continue;
+                            }
+                        }
+                    }
+            }catch(Exception e){
+                System.err.println(e.getMessage());
+            }
+        }
+    }
 }
