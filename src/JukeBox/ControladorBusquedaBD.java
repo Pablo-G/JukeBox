@@ -74,6 +74,32 @@ public class ControladorBusquedaBD implements Runnable {
 	    }
 	}
 
+    public ControladorBusquedaBD(LinkedList<LinkedList> listaSinc, String nombre, String fechaI, String fechaF, String estrI, String estrF, String disI, String disF, String inter) throws Exception{
+		try{
+			File archivoPrincipal = new File(System.getProperty("user.home") + "/JukeBox/MiMusica.db");
+	    	Class.forName("org.sqlite.JDBC");
+	    	conect = DriverManager.getConnection("jdbc:sqlite:" + archivoPrincipal);
+		    conect.setAutoCommit(false);
+		    statem = conect.createStatement();
+		    this.listaSinc = listaSinc;
+		    this.tipo = "AlbumAv";
+		    this.criterio = "";
+			this.nombre = nombre;
+			this.fechaI = fechaI;
+			this.fechaF = fechaF;
+			this.estrI = estrI;
+			this.estrF = estrF;
+			this.repI = disI;
+			this.repF = disF;
+			this.inter = inter;
+			this.interBan = "";
+			this.compo = "";
+	    }catch(Exception e){
+	    	File archivoPrincipal = new File(System.getProperty("user.home") + "/JukeBox/MiMusica.db");
+	    	throw new Exception("No se pudo acceder a la base de datos.\nVerifique que JukeBox tiene privilegios de accceso a " + archivoPrincipal);
+	    }
+	}
+
 	@SuppressWarnings("unchecked") @Override public void run(){
 		try{
 			switch(tipo){
@@ -124,6 +150,17 @@ public class ControladorBusquedaBD implements Runnable {
 				case "CancionAv":{
 					try{
 						listaSinc.add(buscaCanciones(nombre, fechaI, fechaF, estrI, estrF, repI, repF, inter, interBan, compo));
+						synchronized(listaSinc){
+							listaSinc.notify();
+						}
+					}catch(Exception e){
+						//Inalcanzable
+					}
+					break;
+				}
+				case "AlbumAv":{
+					try{
+						listaSinc.add(buscaAlbumes(nombre, fechaI, fechaF, estrI, estrF, repI, repF, inter));
 						synchronized(listaSinc){
 							listaSinc.notify();
 						}
@@ -411,6 +448,87 @@ public class ControladorBusquedaBD implements Runnable {
 	    	rs.close();
 	    }
 	    return lista;
+	}
+
+	private LinkedList<Album> buscaAlbumes(String nombre, String fechaI, String fechaF, String estrI, String estrF, String repI, String repF, String inter) throws Exception{
+		if (inter != null) {
+			ResultSet rs = statem.executeQuery("SELECT AlbumNombre FROM AlbumDe WHERE ArtistasNombre LIKE '" + inter + "';");
+			String resultAlb = "";
+			while (rs.next()) {
+				resultAlb = resultAlb + rs.getString("AlbumNombre") + ";";
+	    	}
+	    	rs.close();
+	    	String[] resultAlbA = resultAlb.split(";");
+	    	LinkedList<Album> lista = new LinkedList<Album>();
+	    	for (String s: resultAlbA) {
+	    				String sql = "SELECT * FROM Albumes WHERE Nombre LIKE '" + s + "'";
+	    				if (!fechaI.equals("")) {
+	    					sql = sql + " AND Ano > " + fechaI;
+	    				}
+	    				if (!fechaF.equals("")) {
+	    					sql = sql + " AND Ano < " + fechaF;
+	    				}
+	    				if (!estrI.equals("")) {
+	    					sql = sql + " AND NumCanciones > " + fechaF;
+	    				}
+	    				if (!estrF.equals("")) {
+	    					sql = sql + " AND NumCanciones < " + fechaF;
+	    				}
+	    				if (!repI.equals("")) {
+	    					sql = sql + " AND NumDiscos > " + fechaF;
+	    				}
+	    				if (!repF.equals("")) {
+	    					sql = sql + " AND NumDiscos < " + fechaF;
+	    				}
+	    				sql = sql + ";";
+						rs = statem.executeQuery(sql);
+						while (rs.next()) {
+					        	String anombre = rs.getString("Nombre");
+					        	int ano = rs.getInt("Ano");
+					        	int numdisc = rs.getInt("NumDiscos");
+					        	int numcan = rs.getInt("NumCanciones");
+					        	String  fechaIncl = rs.getString("Ilustracion");
+					        Album c = new Album(anombre,"",ano,numdisc,numcan,fechaIncl);
+					        lista.add(c);
+					    }
+					    rs.close();
+	    	}
+			return lista;
+		}else{
+	    	LinkedList<Album> lista = new LinkedList<Album>();
+	    	String sql = "SELECT * FROM Albumes WHERE Nombre LIKE '" + nombre + "'";
+	    	if (!fechaI.equals("")) {
+	    		sql = sql + " AND Ano > " + fechaI;
+	    	}
+	    	if (!fechaF.equals("")) {
+	    		sql = sql + " AND Ano < " + fechaF;
+	    	}
+	    	if (!estrI.equals("")) {
+	   			sql = sql + " AND NumCanciones > " + fechaF;
+	   		}
+	    	if (!estrF.equals("")) {
+	    		sql = sql + " AND NumCanciones < " + fechaF;
+	    	}
+	    	if (!repI.equals("")) {
+	    		sql = sql + " AND NumDiscos > " + fechaF;
+	    	}
+	    	if (!repF.equals("")) {
+	    		sql = sql + " AND NumDiscos < " + fechaF;
+	    	}
+	    	sql = sql + ";";
+			ResultSet rs = statem.executeQuery(sql);
+			while (rs.next()) {
+		    	String anombre = rs.getString("Nombre");
+	        	int ano = rs.getInt("Ano");
+	        	int numdisc = rs.getInt("NumDiscos");
+		    	int numcan = rs.getInt("NumCanciones");
+			 	String  fechaIncl = rs.getString("Ilustracion");
+			    Album c = new Album(anombre,"",ano,numdisc,numcan,fechaIncl);
+					lista.add(c);
+				}
+			rs.close();
+			return lista;
+		}
 	}
 
 	private LinkedList<Banda> buscaBandas(String like) throws Exception{

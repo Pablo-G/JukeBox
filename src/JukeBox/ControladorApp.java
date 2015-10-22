@@ -30,9 +30,9 @@ public class ControladorApp{
 	public ControladorApp() throws Exception{
 		cBD = new ControladorBD();
         colaRep = new LinkedList<Object>();
-        colaRep.add(new Cancion("Ángel", "JB", "JB", 2009, 5, 1, "Hoy", "Local", "C:/Users/Pablo/Music/iTunes/iTunes Media/Music/Elefante/Elefante Exitos/02 Angel.mp3", "Elefante", "Exitos", 0, 0));
-        colaRep.add(new Album("Exitos", "Elefante", 2009, 1, 10, "C:/Users/Pablo/Pictures/UNAM Me gusta 2013/291972_469951443079538_1609113550_n.jpg"));
-        colaRep.add(new Banda("Elefante", "C:/Users/Pablo/Pictures/UNAM Me gusta 2013/291972_469951443079538_1609113550_n.jpg", "MX | 2000"));
+        colaRep.add(new Cancion("Ángel", "JB", "JB", 2009, 5, 1, "Hoy", "Local", "C:/Users/Pablo/JukeBox/Proyecto/Elefante/Elefante Exitos/02 Angel.mp3", "Elefante", "Exitos", 0, 0));
+        colaRep.add(new Album("Exitos", "Elefante", 2009, 1, 10, "C:/Users/Pablo/JukeBox/Proyecto/Elefante_-_Grandes_Éxitos.jpg"));
+        colaRep.add(new Banda("Elefante", "C:/Users/Pablo/JukeBox/Proyecto/Elefante.jpg", "MX | 2000"));
         cMP = null;
 		bandaIm = null;
 		artisIm = null;
@@ -702,7 +702,125 @@ public class ControladorApp{
     @FXML private TextField buAvAlPer;
     @FXML private Text buAvAlErr;
 
-    @FXML protected void buscaAvanzadaA(ActionEvent event){
-    
+    @SuppressWarnings("unchecked") @FXML protected void buscaAvanzadaA(ActionEvent event){
+        if (!buAvAlNom.getText().equals("")) {
+            if (!(buAvAlPer.getText().equals(""))) {
+                buAvAlErr.setText("Solo puedes llenar un campo. [Álbum|Artista/Banda]");
+                return;
+            }else{
+                buTaAlAv.setItems(null);
+                LinkedList<LinkedList> result = new LinkedList<LinkedList>();
+                try{
+                    ControladorBusquedaBD bcan = new ControladorBusquedaBD(result, buAvAlNom.getText(), buAvAlFei.getText(), buAvAlFef.getText(), buAvAlCai.getText(), buAvAlCaf.getText(), buAvAlDii.getText(), buAvAlDif.getText(), null);
+                    new Thread(bcan).start();
+                }catch(Exception e){
+                    //Inalcanzable
+                }
+                buAvAlNom.setText("");
+                buAvAlFei.setText("");
+                buAvAlFef.setText("");
+                buAvAlCai.setText("");
+                buAvAlCaf.setText("");
+                buAvAlDii.setText("");
+                buAvAlDif.setText("");
+                buAvAlPer.setText("");
+                buAvAlErr.setText("");
+                try{
+                    synchronized(result){
+                        if (result.size() == 0) {
+                            result.wait();
+                        }
+                        LinkedList l = result.pop();
+                        if (l.size() != 0) {
+                            LinkedList<Album> lC = (LinkedList<Album>)l;
+                            ObservableList<Album> cD = FXCollections.observableArrayList();
+                            for (Album c: lC) {
+                                cD.add(c);
+                            }
+                            buTaAlAv.setItems(cD);
+                        }
+                    }
+                }catch(Exception e){
+                        System.err.println(e.getMessage());
+                }                
+            }
+        }else if (!buAvAlPer.getText().equals("")) {
+            if (!(buAvAlNom.getText().equals(""))) {
+                buAvAlErr.setText("Solo puedes llenar un campo. [Álbum|Artista/Banda]");
+                return;
+            }else{
+                buTaAlAv.setItems(null);
+                LinkedList<LinkedList> result = new LinkedList<LinkedList>();
+                try{
+                    ControladorBusquedaBD bcan = new ControladorBusquedaBD(result, null, buAvAlFei.getText(), buAvAlFef.getText(), buAvAlCai.getText(), buAvAlCaf.getText(), buAvAlDii.getText(), buAvAlDif.getText(), buAvAlPer.getText());
+                    new Thread(bcan).start();
+                }catch(Exception e){
+                    //Inalcanzable
+                }
+                buAvAlNom.setText("");
+                buAvAlFei.setText("");
+                buAvAlFef.setText("");
+                buAvAlCai.setText("");
+                buAvAlCaf.setText("");
+                buAvAlDii.setText("");
+                buAvAlDif.setText("");
+                buAvAlPer.setText("");
+                buAvAlErr.setText("");
+                try{
+                    synchronized(result){
+                        if (result.size() == 0) {
+                            result.wait();
+                        }
+                        LinkedList l = result.pop();
+                        if (l.size() != 0) {
+                            LinkedList<Album> lC = (LinkedList<Album>)l;
+                            ObservableList<Album> cD = FXCollections.observableArrayList();
+                            for (Album c: lC) {
+                                cD.add(c);
+                            }
+                            buTaAlAv.setItems(cD);
+                        }
+                    }
+                }catch(Exception e){
+                        System.err.println(e.getMessage());
+                }                
+            }
+        }else{
+                buTaAlAv.setItems(null);
+                LinkedList<LinkedList> result = new LinkedList<LinkedList>();
+                try{
+                    ControladorBusquedaBD bcan = new ControladorBusquedaBD(result, "%", buAvAlFei.getText(), buAvAlFef.getText(), buAvAlCai.getText(), buAvAlCaf.getText(), buAvAlDii.getText(), buAvAlDif.getText(), null);
+                    new Thread(bcan).start();
+                }catch(Exception e){
+                    //Inalcanzable
+                }
+                buAvAlNom.setText("");
+                buAvAlFei.setText("");
+                buAvAlFef.setText("");
+                buAvAlCai.setText("");
+                buAvAlCaf.setText("");
+                buAvAlDii.setText("");
+                buAvAlDif.setText("");
+                buAvAlPer.setText("");
+                buAvAlErr.setText("");
+                try{
+                    synchronized(result){
+                        if (result.size() == 0) {
+                            result.wait();
+                        }
+                        LinkedList l = result.pop();
+                        if (l.size() != 0) {
+                            LinkedList<Album> lC = (LinkedList<Album>)l;
+                            ObservableList<Album> cD = FXCollections.observableArrayList();
+                            for (Album c: lC) {
+                                cD.add(c);
+                            }
+                            buTaAlAv.setItems(cD);
+                        }
+                    }
+                }catch(Exception e){
+                        System.err.println(e.getMessage());
+                }
+        }    
     }
 }
