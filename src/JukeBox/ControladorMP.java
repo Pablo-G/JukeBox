@@ -12,6 +12,7 @@ public class ControladorMP{
 	public ControladorMP(String url){
 		m = new Media(new File(url).toURI().toString());
 		mp = new MediaPlayer(m);
+		mp.setAutoPlay(false);
 	}
 
 	public void play(){
@@ -20,6 +21,18 @@ public class ControladorMP{
 
 	public void pausa(){
 		mp.pause();
+	}
+
+	public void stop(){
+		mp.stop();
+	}
+
+	public void reiniciar(){
+		mp.seek(mp.getStartTime());
+	}
+
+	public void setVolume(double x){
+		mp.setVolume(x);
 	}
 
 }

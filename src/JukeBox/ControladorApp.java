@@ -12,10 +12,16 @@ import java.util.LinkedList;
 import javafx.collections.*;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.Image;
+import javafx.scene.control.Slider;
+import javafx.scene.input.MouseEvent;
 
 public class ControladorApp{
 	
 	ControladorBD cBD;
+    ControladorMP cMP;
+    LinkedList<Object> colaRep;
 	File bandaIm;
 	File artisIm;
 	File albumIm;
@@ -23,6 +29,11 @@ public class ControladorApp{
 
 	public ControladorApp() throws Exception{
 		cBD = new ControladorBD();
+        colaRep = new LinkedList<Object>();
+        colaRep.add(new Cancion("Ángel", "JB", "JB", 2009, 5, 1, "Hoy", "Local", "C:/Users/Pablo/Music/iTunes/iTunes Media/Music/Elefante/Elefante Exitos/02 Angel.mp3", "Elefante", "Exitos", 0, 0));
+        colaRep.add(new Album("Exitos", "Elefante", 2009, 1, 10, "C:/Users/Pablo/Pictures/UNAM Me gusta 2013/291972_469951443079538_1609113550_n.jpg"));
+        colaRep.add(new Banda("Elefante", "C:/Users/Pablo/Pictures/UNAM Me gusta 2013/291972_469951443079538_1609113550_n.jpg", "MX | 2000"));
+        cMP = null;
 		bandaIm = null;
 		artisIm = null;
 		albumIm = null;
@@ -287,6 +298,27 @@ public class ControladorApp{
     @FXML private TableColumn<Artista, String> buCoArNom;
     @FXML private TableColumn<Artista, String> buCoArInt;
 
+    @FXML private TableView<Cancion> buTaCaAv;
+    @FXML private TableColumn<Cancion, String> buCoCNomAv;
+    @FXML private TableColumn<Cancion, String> buCoCIntAv;
+    @FXML private TableColumn<Cancion, String> buCoCAlbAv;
+    @FXML private TableColumn<Cancion, String> buCoCGenAv;
+    @FXML private TableColumn<Cancion, String> buCoCComAv;
+    @FXML private TableColumn<Cancion, Number> buCoCAnoAv;
+    @FXML private TableColumn<Cancion, Number> buCoCNupAv;
+    @FXML private TableColumn<Cancion, Number> buCoCNudAv;
+    @FXML private TableColumn<Cancion, Number> buCoCCalAv;
+    @FXML private TableColumn<Cancion, Number> buCoCRepAv;
+    @FXML private TableColumn<Cancion, String> buCoCFecAv;
+    @FXML private TableColumn<Cancion, String> buCoCUbiAv;
+
+    @FXML private TableView<Album> buTaAlAv;
+    @FXML private TableColumn<Album, String> buCoANomAv;
+    @FXML private TableColumn<Album, String> buCoAArtAv;
+    @FXML private TableColumn<Album, Number> buCoAAnoAv;
+    @FXML private TableColumn<Album, Number> buCoANudAv;
+    @FXML private TableColumn<Album, Number> buCoANucAv;
+
     @FXML private void initialize() {
         buCoCNom.setCellValueFactory(cellData -> cellData.getValue().getNombre());
         buCoCInt.setCellValueFactory(cellData -> cellData.getValue().getInterprete());
@@ -308,6 +340,23 @@ public class ControladorApp{
         buCoBNom.setCellValueFactory(cellData -> cellData.getValue().getNombre());
         buCoArNom.setCellValueFactory(cellData -> cellData.getValue().getNombre());
         buCoArInt.setCellValueFactory(cellData -> cellData.getValue().getIntegrant());
+        buCoCNomAv.setCellValueFactory(cellData -> cellData.getValue().getNombre());
+        buCoCIntAv.setCellValueFactory(cellData -> cellData.getValue().getInterprete());
+        buCoCAlbAv.setCellValueFactory(cellData -> cellData.getValue().getAlbum());
+        buCoCGenAv.setCellValueFactory(cellData -> cellData.getValue().getGenero());
+        buCoCComAv.setCellValueFactory(cellData -> cellData.getValue().getCompositor());
+        buCoCAnoAv.setCellValueFactory(cellData -> cellData.getValue().getAno());
+        buCoCNupAv.setCellValueFactory(cellData -> cellData.getValue().getPista());
+        buCoCNudAv.setCellValueFactory(cellData -> cellData.getValue().getDisco());
+        buCoCCalAv.setCellValueFactory(cellData -> cellData.getValue().getCalificacion());
+        buCoCRepAv.setCellValueFactory(cellData -> cellData.getValue().getReproducciones());
+        buCoCFecAv.setCellValueFactory(cellData -> cellData.getValue().getFechaIncl());
+        buCoCUbiAv.setCellValueFactory(cellData -> cellData.getValue().getUbicacion());
+        buCoANomAv.setCellValueFactory(cellData -> cellData.getValue().getNombre());
+        buCoAArtAv.setCellValueFactory(cellData -> cellData.getValue().getArtista());
+        buCoAAnoAv.setCellValueFactory(cellData -> cellData.getValue().getAno());
+        buCoANudAv.setCellValueFactory(cellData -> cellData.getValue().getNumdis());
+        buCoANucAv.setCellValueFactory(cellData -> cellData.getValue().getNumcan());
     }
 
     @SuppressWarnings("unchecked") @FXML protected void buscaSencilla(ActionEvent event){
@@ -388,5 +437,272 @@ public class ControladorApp{
                 System.err.println(e.getMessage());
             }
         }
+    }
+
+    @FXML private Text reNoCa;
+    @FXML private Text reNoAl;
+    @FXML private Text reNoAn;
+    @FXML private Text reNoAr;
+    @FXML private Text reNoBi;
+    @FXML private ImageView reImAl;
+    @FXML private ImageView reImBa;
+
+    @FXML protected void rePlay(ActionEvent event){
+        if (cMP != null) {
+            cMP.play();
+        }else{
+            if (colaRep.size() != 0) {
+                Cancion c = (Cancion)colaRep.poll();
+                Album a = (Album)colaRep.poll();
+                Banda b = (Banda)colaRep.poll();
+                cMP = new ControladorMP(c.getRuta().get());
+                reNoCa.setText(c.getNombre().get());
+                reNoAl.setText(a.getNombre().get());
+                reNoAn.setText("" + c.getAno().get());
+                reNoAr.setText(b.getNombre().get());
+                reNoBi.setText(b.getBiografia().get());
+                reImAl.setImage(new Image(new File(a.getIlustra().get()).toURI().toString()));
+                reImBa.setImage(new Image(new File(b.getIlustracion().get()).toURI().toString()));
+                cMP.play();
+            }
+        }
+    }
+
+    @FXML protected void rePause(ActionEvent event){
+        if (cMP != null) {
+            cMP.pausa();
+        }
+    }
+
+    @FXML protected void reReini(ActionEvent event){
+        if (cMP != null) {
+            cMP.reiniciar();
+        }
+    }
+
+    @FXML protected void reAvanz(ActionEvent event){
+        if (cMP != null) {
+            cMP.stop();
+        }else{
+            if (colaRep.size() != 0) {
+                Cancion c = (Cancion)colaRep.poll();
+                Album a = (Album)colaRep.poll();
+                Banda b = (Banda)colaRep.poll();
+                cMP = new ControladorMP(c.getRuta().get());
+                reNoCa.setText(c.getNombre().get());
+                reNoAl.setText(a.getNombre().get());
+                reNoAn.setText("" + c.getAno().get());
+                reNoAr.setText(b.getNombre().get());
+                reNoBi.setText(b.getBiografia().get());
+                reImAl.setImage(new Image(new File(a.getIlustra().get()).toURI().toString()));
+                reImBa.setImage(new Image(new File(b.getIlustracion().get()).toURI().toString()));
+                cMP.play();
+            }
+        }
+    }
+
+    @FXML private Slider reSli;
+
+    @FXML protected void reVol(MouseEvent event){
+        if (cMP != null) {
+            cMP.setVolume(reSli.getValue());
+        }
+    }
+
+    @FXML private TextField buAvCaNom;
+    @FXML private TextField buAvCaFei;
+    @FXML private TextField buAvCaFef;
+    @FXML private TextField buAvCaCai;
+    @FXML private TextField buAvCaCaf;
+    @FXML private TextField buAvCaRei;
+    @FXML private TextField buAvCaRef;
+    @FXML private TextField buAvCaInt;
+    @FXML private TextField buAvCaBan;
+    @FXML private TextField buAvCaCom;
+    @FXML private Text buAvCaErr;
+
+    @SuppressWarnings("unchecked") @FXML protected void buscaAvanzadaC(ActionEvent event){
+        if (!buAvCaNom.getText().equals("")) {
+            if (!(buAvCaInt.getText().equals("")&&buAvCaBan.getText().equals(""))) {
+                buAvCaErr.setText("Solo puedes llenar un campo. [Cancion|Interprete|Banda]");
+                return;
+            }else{
+                buTaCaAv.setItems(null);
+                LinkedList<LinkedList> result = new LinkedList<LinkedList>();
+                try{
+                    ControladorBusquedaBD bcan = new ControladorBusquedaBD(result, buAvCaNom.getText(), buAvCaFei.getText(), buAvCaFef.getText(), buAvCaCai.getText(), buAvCaCaf.getText(), buAvCaRei.getText(), buAvCaRef.getText(), null, null, buAvCaCom.getText());
+                    new Thread(bcan).start();
+                }catch(Exception e){
+                    //Inalcanzable
+                }
+                buAvCaErr.setText("");
+                buAvCaNom.setText("");
+                buAvCaFei.setText("");
+                buAvCaFef.setText("");
+                buAvCaCai.setText("");
+                buAvCaCaf.setText("");
+                buAvCaRei.setText("");
+                buAvCaRef.setText("");
+                buAvCaInt.setText("");
+                buAvCaBan.setText("");
+                buAvCaCom.setText("");
+                try{
+                    synchronized(result){
+                        if (result.size() == 0) {
+                            result.wait();
+                        }
+                        LinkedList l = result.pop();
+                        if (l.size() != 0) {
+                            LinkedList<Cancion> lC = (LinkedList<Cancion>)l;
+                            ObservableList<Cancion> cD = FXCollections.observableArrayList();
+                            for (Cancion c: lC) {
+                                cD.add(c);
+                            }
+                            buTaCaAv.setItems(cD);
+                        }
+                    }
+                }catch(Exception e){
+                        System.err.println(e.getMessage());
+                }
+            }
+        }else if (!buAvCaInt.getText().equals("")) {
+            if (!(buAvCaBan.getText().equals("")&&buAvCaNom.getText().equals(""))) {
+                buAvCaErr.setText("Solo puedes llenar un campo. [Cancion|Interprete|Banda]");
+                return;
+            }else{
+                buTaCaAv.setItems(null);
+                LinkedList<LinkedList> result = new LinkedList<LinkedList>();
+                try{
+                    ControladorBusquedaBD bcan = new ControladorBusquedaBD(result, null, buAvCaFei.getText(), buAvCaFef.getText(), buAvCaCai.getText(), buAvCaCaf.getText(), buAvCaRei.getText(), buAvCaRef.getText(), buAvCaInt.getText(), null, buAvCaCom.getText());
+                    new Thread(bcan).start();
+                }catch(Exception e){
+                    //Inalcanzable
+                }
+                buAvCaErr.setText("");
+                buAvCaNom.setText("");
+                buAvCaFei.setText("");
+                buAvCaFef.setText("");
+                buAvCaCai.setText("");
+                buAvCaCaf.setText("");
+                buAvCaRei.setText("");
+                buAvCaRef.setText("");
+                buAvCaInt.setText("");
+                buAvCaBan.setText("");
+                buAvCaCom.setText("");
+                try{
+                    synchronized(result){
+                        if (result.size() == 0) {
+                            result.wait();
+                        }
+                        LinkedList l = result.pop();
+                        if (l.size() != 0) {
+                            LinkedList<Cancion> lC = (LinkedList<Cancion>)l;
+                            ObservableList<Cancion> cD = FXCollections.observableArrayList();
+                            for (Cancion c: lC) {
+                                cD.add(c);
+                            }
+                            buTaCaAv.setItems(cD);
+                        }
+                    }
+                }catch(Exception e){
+                        System.err.println(e.getMessage());
+                }                
+            }
+        }else if (!buAvCaBan.getText().equals("")) {
+            if (!(buAvCaNom.getText().equals("")&&buAvCaInt.getText().equals(""))) {
+                buAvCaErr.setText("Solo puedes llenar un campo. [Cancion|Interprete|Banda]");
+                return;
+            }else{
+                buTaCaAv.setItems(null);
+                LinkedList<LinkedList> result = new LinkedList<LinkedList>();
+                try{
+                    ControladorBusquedaBD bcan = new ControladorBusquedaBD(result, null, buAvCaFei.getText(), buAvCaFef.getText(), buAvCaCai.getText(), buAvCaCaf.getText(), buAvCaRei.getText(), buAvCaRef.getText(), null, buAvCaBan.getText(), buAvCaCom.getText());
+                    new Thread(bcan).start();
+                }catch(Exception e){
+                    //Inalcanzable
+                }
+                buAvCaErr.setText("");
+                buAvCaNom.setText("");
+                buAvCaFei.setText("");
+                buAvCaFef.setText("");
+                buAvCaCai.setText("");
+                buAvCaCaf.setText("");
+                buAvCaRei.setText("");
+                buAvCaRef.setText("");
+                buAvCaInt.setText("");
+                buAvCaBan.setText("");
+                buAvCaCom.setText("");
+                try{
+                    synchronized(result){
+                        if (result.size() == 0) {
+                            result.wait();
+                        }
+                        LinkedList l = result.pop();
+                        if (l.size() != 0) {
+                            LinkedList<Cancion> lC = (LinkedList<Cancion>)l;
+                            ObservableList<Cancion> cD = FXCollections.observableArrayList();
+                            for (Cancion c: lC) {
+                                cD.add(c);
+                            }
+                            buTaCaAv.setItems(cD);
+                        }
+                    }
+                }catch(Exception e){
+                        System.err.println(e.getMessage());
+                }                
+            }
+        }else{
+                buTaCaAv.setItems(null);
+                LinkedList<LinkedList> result = new LinkedList<LinkedList>();
+                try{
+                    ControladorBusquedaBD bcan = new ControladorBusquedaBD(result, "%", buAvCaFei.getText(), buAvCaFef.getText(), buAvCaCai.getText(), buAvCaCaf.getText(), buAvCaRei.getText(), buAvCaRef.getText(), null, null, buAvCaCom.getText());
+                    new Thread(bcan).start();
+                }catch(Exception e){
+                    //Inalcanzable
+                }
+                buAvCaErr.setText("");
+                buAvCaNom.setText("");
+                buAvCaFei.setText("");
+                buAvCaFef.setText("");
+                buAvCaCai.setText("");
+                buAvCaCaf.setText("");
+                buAvCaRei.setText("");
+                buAvCaRef.setText("");
+                buAvCaInt.setText("");
+                buAvCaBan.setText("");
+                buAvCaCom.setText("");
+                try{
+                    synchronized(result){
+                        if (result.size() == 0) {
+                            result.wait();
+                        }
+                        LinkedList l = result.pop();
+                        if (l.size() != 0) {
+                            LinkedList<Cancion> lC = (LinkedList<Cancion>)l;
+                            ObservableList<Cancion> cD = FXCollections.observableArrayList();
+                            for (Cancion c: lC) {
+                                cD.add(c);
+                            }
+                            buTaCaAv.setItems(cD);
+                        }
+                    }
+                }catch(Exception e){
+                        System.err.println(e.getMessage());
+                }
+        }
+    }
+
+    @FXML private TextField buAvAlNom;
+    @FXML private TextField buAvAlFei;
+    @FXML private TextField buAvAlFef;
+    @FXML private TextField buAvAlCai;
+    @FXML private TextField buAvAlCaf;
+    @FXML private TextField buAvAlDii;
+    @FXML private TextField buAvAlDif;
+    @FXML private TextField buAvAlPer;
+    @FXML private Text buAvAlErr;
+
+    @FXML protected void buscaAvanzadaA(ActionEvent event){
+    
     }
 }

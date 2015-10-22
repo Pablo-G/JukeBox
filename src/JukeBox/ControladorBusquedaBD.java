@@ -11,6 +11,16 @@ public class ControladorBusquedaBD implements Runnable {
     private LinkedList listaSinc;
 	private String tipo;
 	private String criterio;
+	private String nombre;
+	private String fechaI;
+	private String fechaF;
+	private String estrI;
+	private String estrF;
+	private String repI;
+	private String repF;
+	private String inter;
+	private String interBan;
+	private String compo;
 
     public ControladorBusquedaBD(LinkedList<LinkedList> listaSinc, String tipo, String criterio) throws Exception{
 		try{
@@ -22,6 +32,42 @@ public class ControladorBusquedaBD implements Runnable {
 		    this.listaSinc = listaSinc;
 		    this.tipo = tipo;
 		    this.criterio = criterio;
+			this.nombre = "";
+			this.fechaI = "";
+			this.fechaF = "";
+			this.estrI = "";
+			this.estrF = "";
+			this.repI = "";
+			this.repF = "";
+			this.inter = "";
+			this.interBan = "";
+			this.compo = "";
+	    }catch(Exception e){
+	    	File archivoPrincipal = new File(System.getProperty("user.home") + "/JukeBox/MiMusica.db");
+	    	throw new Exception("No se pudo acceder a la base de datos.\nVerifique que JukeBox tiene privilegios de accceso a " + archivoPrincipal);
+	    }
+	}
+
+    public ControladorBusquedaBD(LinkedList<LinkedList> listaSinc, String nombre, String fechaI, String fechaF, String estrI, String estrF, String repI, String repF, String inter, String interBan, String compo) throws Exception{
+		try{
+			File archivoPrincipal = new File(System.getProperty("user.home") + "/JukeBox/MiMusica.db");
+	    	Class.forName("org.sqlite.JDBC");
+	    	conect = DriverManager.getConnection("jdbc:sqlite:" + archivoPrincipal);
+		    conect.setAutoCommit(false);
+		    statem = conect.createStatement();
+		    this.listaSinc = listaSinc;
+		    this.tipo = "CancionAv";
+		    this.criterio = "";
+			this.nombre = nombre;
+			this.fechaI = fechaI;
+			this.fechaF = fechaF;
+			this.estrI = estrI;
+			this.estrF = estrF;
+			this.repI = repI;
+			this.repF = repF;
+			this.inter = inter;
+			this.interBan = interBan;
+			this.compo = compo;
 	    }catch(Exception e){
 	    	File archivoPrincipal = new File(System.getProperty("user.home") + "/JukeBox/MiMusica.db");
 	    	throw new Exception("No se pudo acceder a la base de datos.\nVerifique que JukeBox tiene privilegios de accceso a " + archivoPrincipal);
@@ -67,6 +113,17 @@ public class ControladorBusquedaBD implements Runnable {
 				case "Artista":{
 					try{
 						listaSinc.add(buscaArtistas(criterio));
+						synchronized(listaSinc){
+							listaSinc.notify();
+						}
+					}catch(Exception e){
+						//Inalcanzable
+					}
+					break;
+				}
+				case "CancionAv":{
+					try{
+						listaSinc.add(buscaCanciones(nombre, fechaI, fechaF, estrI, estrF, repI, repF, inter, interBan, compo));
 						synchronized(listaSinc){
 							listaSinc.notify();
 						}
@@ -123,6 +180,214 @@ public class ControladorBusquedaBD implements Runnable {
 	    	rs.close();
 	    }
 	    return lista;
+	}
+
+	private LinkedList<Cancion> buscaCanciones(String nombre, String fechaI, String fechaF, String estrI, String estrF, String repI, String repF, String inter, String interBan, String compo) throws Exception{
+		if (interBan != null) {
+			ResultSet rs = statem.executeQuery("SELECT ArtistaNombre FROM IntegranteDe WHERE BandaNombre LIKE '" + interBan + "';");
+			String resultArt = "";
+			while (rs.next()) {
+				resultArt = resultArt + rs.getString("ArtistaNombre") + ";";
+	    	}
+	    	rs.close();
+	    	String[] resultArtA = resultArt.split(";");
+	    	String resultCan = "";
+	    	for (String s: resultArtA) {
+	    		rs = statem.executeQuery("SELECT CancionNombre FROM InterpretadaPor WHERE ArtistaNombre LIKE '" + s + "';");
+				while (rs.next()) {
+		        	resultCan = resultCan + rs.getString("CancionNombre") + ";";
+		    	}
+		    	rs.close();
+	    	}
+	    	String[] resultCanA = resultCan.split(";");
+	    	LinkedList<Cancion> lista = new LinkedList<Cancion>();
+	    	for (String s: resultCanA) {
+	    				String sql = "SELECT * FROM Canciones WHERE Nombre LIKE '" + s + "'";
+	    				if (!fechaI.equals("")) {
+	    					sql = sql + " AND Ano > " + fechaI;
+	    				}
+	    				if (!fechaF.equals("")) {
+	    					sql = sql + " AND Ano < " + fechaF;
+	    				}
+	    				if (!estrI.equals("")) {
+	    					sql = sql + " AND Calificacion > " + fechaF;
+	    				}
+	    				if (!estrF.equals("")) {
+	    					sql = sql + " AND Calificacion < " + fechaF;
+	    				}
+	    				if (!repI.equals("")) {
+	    					sql = sql + " AND Reproducciones > " + fechaF;
+	    				}
+	    				if (!repF.equals("")) {
+	    					sql = sql + " AND Reproducciones < " + fechaF;
+	    				}
+	    				if (!compo.equals("")) {
+	    					sql = sql + " AND Compositor LIKE '" + compo + "'";
+	    				}
+	    				sql = sql + ";";
+						rs = statem.executeQuery(sql);
+						while (rs.next()) {
+					        	String anombre = rs.getString("Nombre");
+					        	String compositor = rs.getString("Compositor");
+					        	String genero = rs.getString("Genero");
+					        	int ano = rs.getInt("Ano");
+					        	int calificacion = rs.getInt("Calificacion");
+					        	int reproducciones = rs.getInt("Reproducciones");
+					        	String  fechaIncl = rs.getString("FechaIncl");
+					        	String  ubicacion = rs.getString("Ubicacion");
+					        	String  ruta = rs.getString("Ruta");
+					        Cancion c = new Cancion(anombre,compositor,genero,ano,calificacion,reproducciones,fechaIncl,ubicacion,ruta,"","",0,0);
+					        lista.add(c);
+					    }
+					    rs.close();
+					    for (Cancion c: lista) {
+					    	rs = statem.executeQuery("SELECT * FROM InterpretadaPor WHERE CancionNombre LIKE '" + c.getSNombre() + "';");
+					        String ainter = "";
+							while (rs.next()) {
+					        	ainter = ainter + rs.getString("ArtistaNombre") + "; ";
+					        }
+					        c.setInter(ainter);
+					    	rs.close();
+					    }
+					    for (Cancion c: lista) {
+					    	rs = statem.executeQuery("SELECT * FROM PerteneceA WHERE CancionNombre LIKE '" + c.getSNombre() + "';");
+							while (rs.next()) {
+					        	c.setAlbum(rs.getString("AlbumNombre"));
+					        	c.setNumPi(rs.getInt("NumPista"));
+					        	c.setNumDi(rs.getInt("NumDisco"));
+					        }
+					    	rs.close();
+					    }
+	    	}
+			return lista;
+		}else if(inter != null){
+			ResultSet rs = statem.executeQuery("SELECT CancionNombre FROM InterpretadaPor WHERE ArtistaNombre LIKE '" + inter + "';");
+			String resultCan = "";
+			while (rs.next()) {
+				resultCan = resultCan + rs.getString("CancionNombre") + ";";
+	    	}
+	    	rs.close();
+	    	String[] resultCanA = resultCan.split(";");
+	    	LinkedList<Cancion> lista = new LinkedList<Cancion>();
+	    	for (String s: resultCanA) {
+	    				String sql = "SELECT * FROM Canciones WHERE Nombre LIKE '" + s + "'";
+	    				if (!fechaI.equals("")) {
+	    					sql = sql + " AND Ano > " + fechaI;
+	    				}
+	    				if (!fechaF.equals("")) {
+	    					sql = sql + " AND Ano < " + fechaF;
+	    				}
+	    				if (!estrI.equals("")) {
+	    					sql = sql + " AND Calificacion > " + fechaF;
+	    				}
+	    				if (!estrF.equals("")) {
+	    					sql = sql + " AND Calificacion < " + fechaF;
+	    				}
+	    				if (!repI.equals("")) {
+	    					sql = sql + " AND Reproducciones > " + fechaF;
+	    				}
+	    				if (!repF.equals("")) {
+	    					sql = sql + " AND Reproducciones < " + fechaF;
+	    				}
+	    				if (!compo.equals("")) {
+	    					sql = sql + " AND Compositor LIKE '" + compo + "'";
+	    				}
+	    				sql = sql + ";";
+						rs = statem.executeQuery(sql);
+						while (rs.next()) {
+					        	String anombre = rs.getString("Nombre");
+					        	String compositor = rs.getString("Compositor");
+					        	String genero = rs.getString("Genero");
+					        	int ano = rs.getInt("Ano");
+					        	int calificacion = rs.getInt("Calificacion");
+					        	int reproducciones = rs.getInt("Reproducciones");
+					        	String  fechaIncl = rs.getString("FechaIncl");
+					        	String  ubicacion = rs.getString("Ubicacion");
+					        	String  ruta = rs.getString("Ruta");
+					        Cancion c = new Cancion(anombre,compositor,genero,ano,calificacion,reproducciones,fechaIncl,ubicacion,ruta,"","",0,0);
+					        lista.add(c);
+					    }
+					    rs.close();
+					    for (Cancion c: lista) {
+					    	rs = statem.executeQuery("SELECT * FROM InterpretadaPor WHERE CancionNombre LIKE '" + c.getSNombre() + "';");
+					        String ainter = "";
+							while (rs.next()) {
+					        	ainter = ainter + rs.getString("ArtistaNombre") + "; ";
+					        }
+					        c.setInter(ainter);
+					    	rs.close();
+					    }
+					    for (Cancion c: lista) {
+					    	rs = statem.executeQuery("SELECT * FROM PerteneceA WHERE CancionNombre LIKE '" + c.getSNombre() + "';");
+							while (rs.next()) {
+					        	c.setAlbum(rs.getString("AlbumNombre"));
+					        	c.setNumPi(rs.getInt("NumPista"));
+					        	c.setNumDi(rs.getInt("NumDisco"));
+					        }
+					    	rs.close();
+					    }
+	    	}
+			return lista;
+		}else{
+	    	LinkedList<Cancion> lista = new LinkedList<Cancion>();
+	    	String sql = "SELECT * FROM Canciones WHERE Nombre LIKE '" + nombre + "'";
+	    	if (!fechaI.equals("")) {
+	    		sql = sql + " AND Ano > " + fechaI;
+	    	}
+	    	if (!fechaF.equals("")) {
+	    		sql = sql + " AND Ano < " + fechaF;
+	    	}
+	    	if (!estrI.equals("")) {
+	    		sql = sql + " AND Calificacion > " + fechaF;
+	    	}
+	    	if (!estrF.equals("")) {
+	    		sql = sql + " AND Calificacion < " + fechaF;
+	    	}
+	    	if (!repI.equals("")) {
+	    		sql = sql + " AND Reproducciones > " + fechaF;
+	    	}
+	    	if (!repF.equals("")) {
+	    		sql = sql + " AND Reproducciones < " + fechaF;
+	    	}
+	    	if (!compo.equals("")) {
+	    		sql = sql + " AND Compositor LIKE '" + compo + "'";
+	    	}
+	    	sql = sql + ";";
+			ResultSet rs = statem.executeQuery(sql);
+			while (rs.next()) {
+			      	String anombre = rs.getString("Nombre");
+			       	String compositor = rs.getString("Compositor");
+			       	String genero = rs.getString("Genero");
+			       	int ano = rs.getInt("Ano");
+			       	int calificacion = rs.getInt("Calificacion");
+			       	int reproducciones = rs.getInt("Reproducciones");
+			       	String  fechaIncl = rs.getString("FechaIncl");
+			       	String  ubicacion = rs.getString("Ubicacion");
+			       	String  ruta = rs.getString("Ruta");
+			        Cancion c = new Cancion(anombre,compositor,genero,ano,calificacion,reproducciones,fechaIncl,ubicacion,ruta,"","",0,0);
+			        lista.add(c);
+			}
+			rs.close();
+			for (Cancion c: lista) {
+			   	rs = statem.executeQuery("SELECT * FROM InterpretadaPor WHERE CancionNombre LIKE '" + c.getSNombre() + "';");
+			    String ainter = "";
+				while (rs.next()) {
+			   		ainter = ainter + rs.getString("ArtistaNombre") + "; ";
+				}
+			    c.setInter(ainter);
+			   	rs.close();
+			}
+			for (Cancion c: lista) {
+			   	rs = statem.executeQuery("SELECT * FROM PerteneceA WHERE CancionNombre LIKE '" + c.getSNombre() + "';");
+				while (rs.next()) {
+				   	c.setAlbum(rs.getString("AlbumNombre"));
+			       	c.setNumPi(rs.getInt("NumPista"));
+			       	c.setNumDi(rs.getInt("NumDisco"));
+			    }
+			   	rs.close();
+			}
+			return lista;
+		}
 	}
 
 	private LinkedList<Album> buscaAlbumes(String like) throws Exception{
