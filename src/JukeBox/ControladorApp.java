@@ -16,6 +16,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.control.TableRow;
 
 public class ControladorApp{
 	
@@ -30,9 +31,6 @@ public class ControladorApp{
 	public ControladorApp() throws Exception{
 		cBD = new ControladorBD();
         colaRep = new LinkedList<Object>();
-        colaRep.add(new Cancion("Ángel", "JB", "JB", 2009, 5, 1, "Hoy", "Local", "C:/Users/Pablo/JukeBox/Proyecto/Elefante/Elefante Exitos/02 Angel.mp3", "Elefante", "Exitos", 0, 0));
-        colaRep.add(new Album("Exitos", "Elefante", 2009, 1, 10, "C:/Users/Pablo/JukeBox/Proyecto/Elefante_-_Grandes_Éxitos.jpg"));
-        colaRep.add(new Banda("Elefante", "C:/Users/Pablo/JukeBox/Proyecto/Elefante.jpg", "MX | 2000"));
         cMP = null;
 		bandaIm = null;
 		artisIm = null;
@@ -319,7 +317,7 @@ public class ControladorApp{
     @FXML private TableColumn<Album, Number> buCoANudAv;
     @FXML private TableColumn<Album, Number> buCoANucAv;
 
-    @FXML private void initialize() {
+    @SuppressWarnings("unchecked") @FXML private void initialize() {
         buCoCNom.setCellValueFactory(cellData -> cellData.getValue().getNombre());
         buCoCInt.setCellValueFactory(cellData -> cellData.getValue().getInterprete());
         buCoCAlb.setCellValueFactory(cellData -> cellData.getValue().getAlbum());
@@ -357,6 +355,110 @@ public class ControladorApp{
         buCoAAnoAv.setCellValueFactory(cellData -> cellData.getValue().getAno());
         buCoANudAv.setCellValueFactory(cellData -> cellData.getValue().getNumdis());
         buCoANucAv.setCellValueFactory(cellData -> cellData.getValue().getNumcan());
+        buTaCa.setRowFactory( tv -> {
+            TableRow<Cancion> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (!row.isEmpty()) ) {
+                    LinkedList<LinkedList> result = new LinkedList<LinkedList>();
+                    Cancion rowData = row.getItem();
+                    colaRep.add(rowData);
+                    try{
+                        String[] interpretes = rowData.getInterprete().get().split(";");
+                        ControladorBusquedaBD balb = new ControladorBusquedaBD(result, "Album", rowData.getAlbum().get());
+                        ControladorBusquedaBD bban = new ControladorBusquedaBD(result, "Banda", interpretes[0]);
+                        new Thread(balb).start();
+                        new Thread(bban).start();
+                    }catch(Exception e){
+                        //Inalcanzable
+                    }
+                    try{
+                        synchronized(result){
+                            LinkedList<Banda> lbanda = new LinkedList<Banda>();
+                            for (int i = 0; i < 2 ; i++) {
+                                if (result.size() == 0) {
+                                    result.wait();
+                                }
+                                LinkedList l = result.pop();
+                                if (l.size() != 0) {
+                                    Object o = l.pop();
+                                    l.push(o);
+                                    switch(o.getClass().toString()){
+                                            case "class JukeBox.Album":{
+                                                LinkedList<Album> lA = (LinkedList<Album>)l;
+                                                colaRep.add(lA.pop());
+                                                break;
+                                            }
+                                            case "class JukeBox.Banda":{
+                                                LinkedList<Banda> lB = (LinkedList<Banda>)l;
+                                                lbanda.add(lB.pop());
+                                                break;                     
+                                            }
+                                        }
+                                }else{
+                                    continue;
+                                }
+                            }
+                            colaRep.add(lbanda.pop());
+                        }
+                    }catch(Exception e){
+                        //Inalcanzable
+                    }
+                }
+            });
+            return row ;
+        });
+        buTaCaAv.setRowFactory( tv -> {
+            TableRow<Cancion> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (!row.isEmpty()) ) {
+                    LinkedList<LinkedList> result = new LinkedList<LinkedList>();
+                    Cancion rowData = row.getItem();
+                    colaRep.add(rowData);
+                    try{
+                        String[] interpretes = rowData.getInterprete().get().split(";");
+                        ControladorBusquedaBD balb = new ControladorBusquedaBD(result, "Album", rowData.getAlbum().get());
+                        ControladorBusquedaBD bban = new ControladorBusquedaBD(result, "Banda", interpretes[0]);
+                        new Thread(balb).start();
+                        new Thread(bban).start();
+                        }catch(Exception e){
+                            //Inalcanzable
+                    }
+                    try{
+                        synchronized(result){
+                            LinkedList<Banda> lbanda = new LinkedList<Banda>();
+                            for (int i = 0; i < 2 ; i++) {
+                                if (result.size() == 0) {
+                                    result.wait();
+                                }
+                                LinkedList l = result.pop();
+                                if (l.size() != 0) {
+                                    Object o = l.pop();
+                                    l.push(o);
+                                    switch(o.getClass().toString()){
+                                            case "class JukeBox.Album":{
+                                                LinkedList<Album> lA = (LinkedList<Album>)l;
+                                                colaRep.add(lA.pop());
+                                                break;
+                                            }
+                                            case "class JukeBox.Banda":{
+                                                LinkedList<Banda> lB = (LinkedList<Banda>)l;
+                                                lbanda.add(lB.pop());
+                                                break;                     
+                                            }
+                                        }
+                                }else{
+                                    continue;
+                                }
+                            }
+                            colaRep.add(lbanda.pop());
+                        }
+                    }catch(Exception e){
+                        //Inalcanzable
+                    }
+                }
+            });
+            return row ;
+        });
     }
 
     @SuppressWarnings("unchecked") @FXML protected void buscaSencilla(ActionEvent event){
@@ -455,6 +557,7 @@ public class ControladorApp{
                 Cancion c = (Cancion)colaRep.poll();
                 Album a = (Album)colaRep.poll();
                 Banda b = (Banda)colaRep.poll();
+                System.out.println("Añadida " + c.getNombre().get());
                 cMP = new ControladorMP(c.getRuta().get());
                 reNoCa.setText(c.getNombre().get());
                 reNoAl.setText(a.getNombre().get());
@@ -483,21 +586,21 @@ public class ControladorApp{
     @FXML protected void reAvanz(ActionEvent event){
         if (cMP != null) {
             cMP.stop();
-        }else{
-            if (colaRep.size() != 0) {
-                Cancion c = (Cancion)colaRep.poll();
-                Album a = (Album)colaRep.poll();
-                Banda b = (Banda)colaRep.poll();
-                cMP = new ControladorMP(c.getRuta().get());
-                reNoCa.setText(c.getNombre().get());
-                reNoAl.setText(a.getNombre().get());
-                reNoAn.setText("" + c.getAno().get());
-                reNoAr.setText(b.getNombre().get());
-                reNoBi.setText(b.getBiografia().get());
-                reImAl.setImage(new Image(new File(a.getIlustra().get()).toURI().toString()));
-                reImBa.setImage(new Image(new File(b.getIlustracion().get()).toURI().toString()));
-                cMP.play();
-            }
+        }
+        if (colaRep.size() != 0) {
+            Cancion c = (Cancion)colaRep.poll();
+            Album a = (Album)colaRep.poll();
+            Banda b = (Banda)colaRep.poll();
+            System.out.println("Añadida " + c.getNombre().get());
+            cMP = new ControladorMP(c.getRuta().get());
+            reNoCa.setText(c.getNombre().get());
+            reNoAl.setText(a.getNombre().get());
+            reNoAn.setText("" + c.getAno().get());
+            reNoAr.setText(b.getNombre().get());
+            reNoBi.setText(b.getBiografia().get());
+            reImAl.setImage(new Image(new File(a.getIlustra().get()).toURI().toString()));
+            reImBa.setImage(new Image(new File(b.getIlustracion().get()).toURI().toString()));
+            cMP.play();
         }
     }
 

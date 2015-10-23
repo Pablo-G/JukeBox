@@ -35,7 +35,7 @@ public class ControladorBD{
                    " Ano             INT                NOT NULL," + 
                    " Calificacion    INT                NOT NULL," + 
                    " Reproducciones  INT                NOT NULL," + 
-                   " FechaIncl       DATETIME           NOT NULL," + 
+                   " FechaIncl       DATE               NOT NULL," + 
                    " Ubicacion       TEXT               NOT NULL," + 
                    " Ruta            TEXT               NOT NULL);"; 
       		statem.executeUpdate(sql);
@@ -181,7 +181,7 @@ public class ControladorBD{
     						  int disco , boolean sencillo,
     						  String ubica ) throws Exception{
 		Calendar calen = Calendar.getInstance();
-		String fechaIncl = "'" + calen.YEAR + "-" + calen.MONTH + "-" + calen.DAY_OF_MONTH + " " + calen.HOUR_OF_DAY + ":" + calen.MINUTE + ":00'";
+		String fechaIncl = String.format("'%1$tY-%1$tm-%1$te'", calen);
 
 	    String[] inteDeC = inteDe.split(";");
 

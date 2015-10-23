@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 public class App extends Application{
 
 	@Override public void start(Stage stage) throws Exception{
-		Parent root = FXMLLoader.load(getClass().getResource("fxml/fxmlApp1.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("fxml/JukeBoxApp.fxml"));
 
 		Scene scene = new Scene(root, 1440, 710);
 
