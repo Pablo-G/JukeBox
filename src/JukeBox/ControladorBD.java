@@ -1,3 +1,10 @@
+/**
+ *Clase <code>ControladorBD</code>.
+ *Clase que controla la conexión con la Base de Datos.
+ *@author <a href="mailto:pablo.t645@hotmail.com">Pablo G.</a>
+ *@version 1.0
+ *Copyright 2015 Pablo G.
+ */
 package JukeBox;
 
 import java.sql.*;
@@ -9,6 +16,9 @@ public class ControladorBD{
 	Connection conect;
     Statement statem;
 
+    /**
+     * Constructor.
+     */
 	public ControladorBD() throws Exception{
 
 		File carpetaPrincipal = new File(System.getProperty("user.home") + "/JukeBox");
@@ -88,6 +98,9 @@ public class ControladorBD{
 	    statem = conect.createStatement();
 	}
 
+    /**
+     * Método para agregar una banda.
+     */
 	public void agregaBanda(String nombre, String ilustr, String biogra) throws Exception{
 		String sql = "INSERT INTO Bandas (Nombre,Ilustracion,Biografia) " +
         	"VALUES ('" + nombre + "', '" + ilustr + "', '" + biogra + "');"; 
@@ -99,9 +112,12 @@ public class ControladorBD{
 	    }
 	    conect.commit();
 
-    	imprimeTablas();
+    	//imprimeTablas();
 	}
 
+    /**
+     * Método para agregar un artista.
+     */
 	public void agregaArtista(String nombre, String ilustr, String biogra, String inteDe) throws Exception{
 
 		String[] inteDeA;
@@ -136,9 +152,12 @@ public class ControladorBD{
 		    conect.commit();    	
 	    }
 
-    	imprimeTablas();
+    	//imprimeTablas();
 	}
 
+    /**
+     * Método para agregar un álbum.
+     */
 	public void agregaAlbum(String nombre, String ilustr, String interp, int ano, int dis, boolean artist) throws Exception{
 
 		if (artist) {
@@ -171,9 +190,12 @@ public class ControladorBD{
 		statem.executeUpdate(sql);
 		conect.commit();    	
 
-    	imprimeTablas();
+    	//imprimeTablas();
 	}
 
+    /**
+     * Método para agregar una canción.
+     */
 	public void agregaCancion(String nombre, String album, 
     						  String inteDe, String compo,
     						  String genero, int ano,
@@ -239,10 +261,13 @@ public class ControladorBD{
 		    conect.commit();
 	    }
 		
-	    imprimeTablas();
+	    //imprimeTablas();
 
 	}
 
+    /**
+     * Método para imprimir las tablas en la consola.
+     */
 	public void imprimeTablas(){
 		try{
 			ResultSet rs = statem.executeQuery( "SELECT * FROM Canciones" );

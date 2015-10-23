@@ -1,3 +1,10 @@
+/**
+ *Clase <code>TestCancion</code>.
+ *Clase para pruebas unitarias de la clase {@link Cancion}.
+ *@author <a href="mailto:pablo.t645@hotmail.com">Pablo G.</a>
+ *@version 1.0
+ *Copyright 2015 Pablo G.
+ */
 package JukeBox.test;
 
 import org.junit.Assert;
@@ -6,6 +13,9 @@ import JukeBox.Cancion;
 
 public class TestCancion{
 	
+    /**
+     * Prueba unitaria para {@link Cancion#Cancion}.
+     */
 	@Test public void testConstructor(){
 		try{
 			Cancion a = new Cancion("Ángel", "Elefante", "Latin", 2009, 10, 0, "2015-10-22", "Local", "C:/angel.mp3", "Elefante", "Exitos", 2, 1);
@@ -17,6 +27,9 @@ public class TestCancion{
 		}
 	}
 
+    /**
+     * Prueba unitaria para {@link Cancion#getNombre}.
+     */
 	@Test public void testGetNombre(){
 			Cancion a = new Cancion("Ángel", "Elefante", "Latin", 2009, 10, 0, "2015-10-22", "Local", "C:/angel.mp3", "Elefante", "Exitos", 2, 1);
 			Cancion b = new Cancion("Treasured Soul", "Michael Calfan", "Dance", 2015, 9, 0, "2015-01-01", "Local", "C:/ts.mp3", "Michael Calfan", "Sencillo", 0, 0);
@@ -26,6 +39,9 @@ public class TestCancion{
 			Assert.assertTrue(c.getNombre().get().equals("Locked Away"));
 	}
 
+    /**
+     * Prueba unitaria para {@link Cancion#getCompositor}.
+     */
 	@Test public void testGetCompositor(){
 			Cancion a = new Cancion("Ángel", "Elefante", "Latin", 2009, 10, 0, "2015-10-22", "Local", "C:/angel.mp3", "Elefante", "Exitos", 2, 1);
 			Cancion b = new Cancion("Treasured Soul", "Michael Calfan", "Dance", 2015, 9, 0, "2015-01-01", "Local", "C:/ts.mp3", "Michael Calfan", "Sencillo", 0, 0);
@@ -35,6 +51,9 @@ public class TestCancion{
 			Assert.assertTrue(c.getCompositor().get().equals("Theron Thomas"));
 	}
 
+    /**
+     * Prueba unitaria para {@link Cancion#getGenero}.
+     */
 	@Test public void testGetGenero(){
 			Cancion a = new Cancion("Ángel", "Elefante", "Latin", 2009, 10, 0, "2015-10-22", "Local", "C:/angel.mp3", "Elefante", "Exitos", 2, 1);
 			Cancion b = new Cancion("Treasured Soul", "Michael Calfan", "Dance", 2015, 9, 0, "2015-01-01", "Local", "C:/ts.mp3", "Michael Calfan", "Sencillo", 0, 0);
@@ -44,6 +63,9 @@ public class TestCancion{
 			Assert.assertTrue(c.getGenero().get().equals("Reggae;Pop"));
 	}
 
+    /**
+     * Prueba unitaria para {@link Cancion#getAno}.
+     */
 	@Test public void testGetAno(){
 			Cancion a = new Cancion("Ángel", "Elefante", "Latin", 2009, 10, 0, "2015-10-22", "Local", "C:/angel.mp3", "Elefante", "Exitos", 2, 1);
 			Cancion b = new Cancion("Treasured Soul", "Michael Calfan", "Dance", 2015, 9, 0, "2015-01-01", "Local", "C:/ts.mp3", "Michael Calfan", "Sencillo", 0, 0);
@@ -53,6 +75,9 @@ public class TestCancion{
 			Assert.assertTrue(c.getAno().get() == 2015);
 	}
 
+    /**
+     * Prueba unitaria para {@link Cancion#getCalificacion}.
+     */
 	@Test public void testGetCalificacion(){
 			Cancion a = new Cancion("Ángel", "Elefante", "Latin", 2009, 10, 0, "2015-10-22", "Local", "C:/angel.mp3", "Elefante", "Exitos", 2, 1);
 			Cancion b = new Cancion("Treasured Soul", "Michael Calfan", "Dance", 2015, 9, 0, "2015-01-01", "Local", "C:/ts.mp3", "Michael Calfan", "Sencillo", 0, 0);
@@ -62,6 +87,9 @@ public class TestCancion{
 			Assert.assertTrue(c.getCalificacion().get() == 8);
 	}
 
+    /**
+     * Prueba unitaria para {@link Cancion#getReproducciones}.
+     */
 	@Test public void testGetReproducciones(){
 			Cancion a = new Cancion("Ángel", "Elefante", "Latin", 2009, 10, 0, "2015-10-22", "Local", "C:/angel.mp3", "Elefante", "Exitos", 2, 1);
 			Cancion b = new Cancion("Treasured Soul", "Michael Calfan", "Dance", 2015, 9, 0, "2015-01-01", "Local", "C:/ts.mp3", "Michael Calfan", "Sencillo", 0, 0);
@@ -71,6 +99,9 @@ public class TestCancion{
 			Assert.assertTrue(c.getReproducciones().get() == 0);
 	}
 
+    /**
+     * Prueba unitaria para {@link Cancion#getFechaIncl}.
+     */
 	@Test public void testGetFechaIncl(){
 			Cancion a = new Cancion("Ángel", "Elefante", "Latin", 2009, 10, 0, "2015-10-22", "Local", "C:/angel.mp3", "Elefante", "Exitos", 2, 1);
 			Cancion b = new Cancion("Treasured Soul", "Michael Calfan", "Dance", 2015, 9, 0, "2015-01-01", "Local", "C:/ts.mp3", "Michael Calfan", "Sencillo", 0, 0);
@@ -80,6 +111,9 @@ public class TestCancion{
 			Assert.assertTrue(c.getFechaIncl().get().equals("2015-08-30"));
 	}
 
+    /**
+     * Prueba unitaria para {@link Cancion#getUbicacion}.
+     */
 	@Test public void testGetUbicacion(){
 			Cancion a = new Cancion("Ángel", "Elefante", "Latin", 2009, 10, 0, "2015-10-22", "Local", "C:/angel.mp3", "Elefante", "Exitos", 2, 1);
 			Cancion b = new Cancion("Treasured Soul", "Michael Calfan", "Dance", 2015, 9, 0, "2015-01-01", "Local", "C:/ts.mp3", "Michael Calfan", "Sencillo", 0, 0);
@@ -89,6 +123,9 @@ public class TestCancion{
 			Assert.assertTrue(c.getUbicacion().get().equals("Local"));
 	}
 
+    /**
+     * Prueba unitaria para {@link Cancion#getRuta}.
+     */
 	@Test public void testGetRuta(){
 			Cancion a = new Cancion("Ángel", "Elefante", "Latin", 2009, 10, 0, "2015-10-22", "Local", "C:/angel.mp3", "Elefante", "Exitos", 2, 1);
 			Cancion b = new Cancion("Treasured Soul", "Michael Calfan", "Dance", 2015, 9, 0, "2015-01-01", "Local", "C:/ts.mp3", "Michael Calfan", "Sencillo", 0, 0);
@@ -98,6 +135,9 @@ public class TestCancion{
 			Assert.assertTrue(c.getRuta().get().equals("C:/la.mp3"));
 	}
 
+    /**
+     * Prueba unitaria para {@link Cancion#getInterprete}.
+     */
 	@Test public void testGetInterprete(){
 			Cancion a = new Cancion("Ángel", "Elefante", "Latin", 2009, 10, 0, "2015-10-22", "Local", "C:/angel.mp3", "Elefante", "Exitos", 2, 1);
 			Cancion b = new Cancion("Treasured Soul", "Michael Calfan", "Dance", 2015, 9, 0, "2015-01-01", "Local", "C:/ts.mp3", "Michael Calfan", "Sencillo", 0, 0);
@@ -107,6 +147,9 @@ public class TestCancion{
 			Assert.assertTrue(c.getInterprete().get().equals("R. City;Adam Levine"));
 	}
 
+    /**
+     * Prueba unitaria para {@link Cancion#getAlbum}.
+     */
 	@Test public void testGetAlbum(){
 			Cancion a = new Cancion("Ángel", "Elefante", "Latin", 2009, 10, 0, "2015-10-22", "Local", "C:/angel.mp3", "Elefante", "Exitos", 2, 1);
 			Cancion b = new Cancion("Treasured Soul", "Michael Calfan", "Dance", 2015, 9, 0, "2015-01-01", "Local", "C:/ts.mp3", "Michael Calfan", "Sencillo", 0, 0);
@@ -116,6 +159,9 @@ public class TestCancion{
 			Assert.assertTrue(c.getAlbum().get().equals("Sencillo"));
 	}
 
+    /**
+     * Prueba unitaria para {@link Cancion#getPista}.
+     */
 	@Test public void testGetPista(){
 			Cancion a = new Cancion("Ángel", "Elefante", "Latin", 2009, 10, 0, "2015-10-22", "Local", "C:/angel.mp3", "Elefante", "Exitos", 2, 1);
 			Cancion b = new Cancion("Treasured Soul", "Michael Calfan", "Dance", 2015, 9, 0, "2015-01-01", "Local", "C:/ts.mp3", "Michael Calfan", "Sencillo", 0, 0);
@@ -125,6 +171,9 @@ public class TestCancion{
 			Assert.assertTrue(c.getPista().get() == 0);
 	}
 
+    /**
+     * Prueba unitaria para {@link Cancion#getDisco}.
+     */
 	@Test public void testGetDisco(){
 			Cancion a = new Cancion("Ángel", "Elefante", "Latin", 2009, 10, 0, "2015-10-22", "Local", "C:/angel.mp3", "Elefante", "Exitos", 2, 1);
 			Cancion b = new Cancion("Treasured Soul", "Michael Calfan", "Dance", 2015, 9, 0, "2015-01-01", "Local", "C:/ts.mp3", "Michael Calfan", "Sencillo", 0, 0);
@@ -134,6 +183,9 @@ public class TestCancion{
 			Assert.assertTrue(c.getDisco().get() == 0);
 	}
 
+    /**
+     * Prueba unitaria para {@link Cancion#setInter}.
+     */
 	@Test public void testSetInter(){
 			Cancion a = new Cancion("Ángel", "Elefante", "Latin", 2009, 10, 0, "2015-10-22", "Local", "C:/angel.mp3", "Elefante", "Exitos", 2, 1);
 			Cancion b = new Cancion("Treasured Soul", "Michael Calfan", "Dance", 2015, 9, 0, "2015-01-01", "Local", "C:/ts.mp3", "Michael Calfan", "Sencillo", 0, 0);
@@ -146,6 +198,9 @@ public class TestCancion{
 			Assert.assertTrue(c.getInterprete().get().equals("setInter3"));
 	}
 
+    /**
+     * Prueba unitaria para {@link Cancion#setAlbum}.
+     */
 	@Test public void testSetAlbum(){
 			Cancion a = new Cancion("Ángel", "Elefante", "Latin", 2009, 10, 0, "2015-10-22", "Local", "C:/angel.mp3", "Elefante", "Exitos", 2, 1);
 			Cancion b = new Cancion("Treasured Soul", "Michael Calfan", "Dance", 2015, 9, 0, "2015-01-01", "Local", "C:/ts.mp3", "Michael Calfan", "Sencillo", 0, 0);
@@ -158,6 +213,9 @@ public class TestCancion{
 			Assert.assertTrue(c.getAlbum().get().equals("setAlbum3"));
 	}
 
+    /**
+     * Prueba unitaria para {@link Cancion#setNumPi}.
+     */
 	@Test public void testSetNumPi(){
 			Cancion a = new Cancion("Ángel", "Elefante", "Latin", 2009, 10, 0, "2015-10-22", "Local", "C:/angel.mp3", "Elefante", "Exitos", 2, 1);
 			Cancion b = new Cancion("Treasured Soul", "Michael Calfan", "Dance", 2015, 9, 0, "2015-01-01", "Local", "C:/ts.mp3", "Michael Calfan", "Sencillo", 0, 0);
@@ -170,6 +228,9 @@ public class TestCancion{
 			Assert.assertTrue(c.getPista().get() == 12);
 	}
 
+    /**
+     * Prueba unitaria para {@link Cancion#setNumDi}.
+     */
 	@Test public void testSetNumDi(){
 			Cancion a = new Cancion("Ángel", "Elefante", "Latin", 2009, 10, 0, "2015-10-22", "Local", "C:/angel.mp3", "Elefante", "Exitos", 2, 1);
 			Cancion b = new Cancion("Treasured Soul", "Michael Calfan", "Dance", 2015, 9, 0, "2015-01-01", "Local", "C:/ts.mp3", "Michael Calfan", "Sencillo", 0, 0);
@@ -182,6 +243,9 @@ public class TestCancion{
 			Assert.assertTrue(c.getDisco().get() == 94);
 	}
 
+    /**
+     * Prueba unitaria para {@link Cancion#getSNombre}.
+     */
 	@Test public void testGetSNombre(){
 			Cancion a = new Cancion("Ángel", "Elefante", "Latin", 2009, 10, 0, "2015-10-22", "Local", "C:/angel.mp3", "Elefante", "Exitos", 2, 1);
 			Cancion b = new Cancion("Treasured Soul", "Michael Calfan", "Dance", 2015, 9, 0, "2015-01-01", "Local", "C:/ts.mp3", "Michael Calfan", "Sencillo", 0, 0);

@@ -1,3 +1,10 @@
+/**
+ *Clase <code>ControladorBusquedaBD</code>.
+ *Clase que controla las búsquedas en la Base de Datos.
+ *@author <a href="mailto:pablo.t645@hotmail.com">Pablo G.</a>
+ *@version 1.0
+ *Copyright 2015 Pablo G.
+ */
 package JukeBox;
 
 import java.sql.*;
@@ -22,6 +29,12 @@ public class ControladorBusquedaBD implements Runnable {
 	private String interBan;
 	private String compo;
 
+    /**
+     *<code>ControladorBusquedaBD</code> Constructor para búsqueda sencilla.
+     *@param listaSinc tipo <code>LinkedList<LinkedList></code>: Lista donde se pondrá el resultado.
+     *@param nombre tipo <code>String</code>: Tipo de dato que se desea buscar.
+     *@param fechaI criterio <code>String</code>: Criterio a buscar.
+     */
     public ControladorBusquedaBD(LinkedList<LinkedList> listaSinc, String tipo, String criterio) throws Exception{
 		try{
 			File archivoPrincipal = new File(System.getProperty("user.home") + "/JukeBox/MiMusica.db");
@@ -48,6 +61,20 @@ public class ControladorBusquedaBD implements Runnable {
 	    }
 	}
 
+    /**
+     *<code>ControladorBusquedaBD</code> Constructor para búsqueda de Canción avanzada.
+     *@param listaSinc tipo <code>LinkedList<LinkedList></code>: Lista donde se pondrá el resultado.
+     *@param nombre tipo <code>String</code>: Nombre de la canción.
+     *@param fechaI tipo <code>String</code>: [Fecha de Inclusión.
+     *@param fechaF tipo <code>String</code>: Fecha de Inclusión].
+     *@param estrI tipo <code>String</code>: [Calificación.
+     *@param estrF tipo <code>String</code>: Calificación].
+     *@param disI tipo <code>String</code>: [Número de discos.
+     *@param disF tipo <code>String</code>: Número de discos].
+     *@param inter tipo <code>String</code>: Interpretes.
+     *@param interBan tipo <code>String</code>: Integrantes de _ banda.
+     *@param compo tipo <code>String</code>: Compostores.
+     */
     public ControladorBusquedaBD(LinkedList<LinkedList> listaSinc, String nombre, String fechaI, String fechaF, String estrI, String estrF, String repI, String repF, String inter, String interBan, String compo) throws Exception{
 		try{
 			File archivoPrincipal = new File(System.getProperty("user.home") + "/JukeBox/MiMusica.db");
@@ -74,6 +101,18 @@ public class ControladorBusquedaBD implements Runnable {
 	    }
 	}
 
+    /**
+     *<code>ControladorBusquedaBD</code> Constructor para búsqueda de Álbum avanzada.
+     *@param listaSinc tipo <code>LinkedList<LinkedList></code>: Lista donde se pondrá el resultado.
+     *@param nombre tipo <code>String</code>: Nombre del álbum.
+     *@param fechaI tipo <code>String</code>: [Fecha de Inclusión.
+     *@param fechaF tipo <code>String</code>: Fecha de Inclusión].
+     *@param estrI tipo <code>String</code>: [Calificación.
+     *@param estrF tipo <code>String</code>: Calificación].
+     *@param disI tipo <code>String</code>: [Número de discos.
+     *@param disF tipo <code>String</code>: Número de discos].
+     *@param inter tipo <code>String</code>: Interpretes.
+     */
     public ControladorBusquedaBD(LinkedList<LinkedList> listaSinc, String nombre, String fechaI, String fechaF, String estrI, String estrF, String disI, String disF, String inter) throws Exception{
 		try{
 			File archivoPrincipal = new File(System.getProperty("user.home") + "/JukeBox/MiMusica.db");
@@ -100,6 +139,9 @@ public class ControladorBusquedaBD implements Runnable {
 	    }
 	}
 
+    /**
+     *<code>run</code> Lanza un hilo de ejecución para realizar la búsqueda.
+     */
 	@SuppressWarnings("unchecked") @Override public void run(){
 		try{
 			switch(tipo){
@@ -181,6 +223,9 @@ public class ControladorBusquedaBD implements Runnable {
 		}
 	}
 
+	/**
+     * Busqueda sencilla de canciones.
+     */
 	private LinkedList<Cancion> buscaCanciones(String like) throws Exception{
 		LinkedList<Cancion> lista = new LinkedList<Cancion>();
 		ResultSet rs = statem.executeQuery("SELECT * FROM Canciones WHERE Nombre LIKE '%" + like + "%';");
@@ -219,6 +264,9 @@ public class ControladorBusquedaBD implements Runnable {
 	    return lista;
 	}
 
+	/**
+     * Busqueda avanzada de canciones.
+     */
 	private LinkedList<Cancion> buscaCanciones(String nombre, String fechaI, String fechaF, String estrI, String estrF, String repI, String repF, String inter, String interBan, String compo) throws Exception{
 		if (interBan != null) {
 			ResultSet rs = statem.executeQuery("SELECT ArtistaNombre FROM IntegranteDe WHERE BandaNombre LIKE '" + interBan + "';");
@@ -427,6 +475,9 @@ public class ControladorBusquedaBD implements Runnable {
 		}
 	}
 
+	/**
+     * Busqueda sencilla de álbumes.
+     */
 	private LinkedList<Album> buscaAlbumes(String like) throws Exception{
 		LinkedList<Album> lista = new LinkedList<Album>();
 		ResultSet rs = statem.executeQuery("SELECT * FROM Albumes WHERE Nombre LIKE '%" + like + "%';");
@@ -450,6 +501,9 @@ public class ControladorBusquedaBD implements Runnable {
 	    return lista;
 	}
 
+	/**
+     * Busqueda avanzada de álbumes.
+     */
 	private LinkedList<Album> buscaAlbumes(String nombre, String fechaI, String fechaF, String estrI, String estrF, String repI, String repF, String inter) throws Exception{
 		if (inter != null) {
 			ResultSet rs = statem.executeQuery("SELECT AlbumNombre FROM AlbumDe WHERE ArtistasNombre LIKE '" + inter + "';");
@@ -531,6 +585,9 @@ public class ControladorBusquedaBD implements Runnable {
 		}
 	}
 
+	/**
+     * Busqueda sencilla de bandas.
+     */
 	private LinkedList<Banda> buscaBandas(String like) throws Exception{
 		LinkedList<Banda> lista = new LinkedList<Banda>();
 		ResultSet rs = statem.executeQuery("SELECT * FROM Bandas WHERE Nombre LIKE '%" + like + "%';");
@@ -545,6 +602,9 @@ public class ControladorBusquedaBD implements Runnable {
 	    return lista;
 	}
 
+	/**
+     * Busqueda sencilla de artistas.
+     */
 	private LinkedList<Artista> buscaArtistas(String like) throws Exception{
 		LinkedList<Artista> lista = new LinkedList<Artista>();
 		ResultSet rs = statem.executeQuery("SELECT * FROM Artistas WHERE Nombre LIKE '%" + like + "%';");

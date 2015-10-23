@@ -1,3 +1,10 @@
+/**
+ *Clase <code>TestArtista</code>.
+ *Clase para pruebas unitarias de la clase {@link Artista}.
+ *@author <a href="mailto:pablo.t645@hotmail.com">Pablo G.</a>
+ *@version 1.0
+ *Copyright 2015 Pablo G.
+ */
 package JukeBox.test;
 
 import org.junit.Assert;
@@ -6,6 +13,9 @@ import JukeBox.Artista;
 
 public class TestArtista{
 
+    /**
+     * Prueba unitaria para {@link Artista#Artista}.
+     */
 	@Test public void testConstructor(){
 		try{
 			Artista a = new Artista("Adam Levine", "C:/al.jpg", "US | 1979", "Maroon 5");
@@ -17,6 +27,9 @@ public class TestArtista{
 		}
 	}
 
+    /**
+     * Prueba unitaria para {@link Artista#getNombre}.
+     */
 	@Test public void testGetNombre(){
 			Artista a = new Artista("Adam Levine", "C:/al.jpg", "US | 1979", "Maroon 5");
 			Artista b = new Artista("Robin Thicke", "C:/rt.jpg", "US | 1977", "-");
@@ -26,6 +39,9 @@ public class TestArtista{
 			Assert.assertTrue(c.getNombre().get().equals("Chris Martin"));
 	}
 
+    /**
+     * Prueba unitaria para {@link Artista#getIlustracion}.
+     */
 	@Test public void testGetIlustracion(){
 			Artista a = new Artista("Adam Levine", "C:/al.jpg", "US | 1979", "Maroon 5");
 			Artista b = new Artista("Robin Thicke", "C:/rt.jpg", "US | 1977", "-");
@@ -35,6 +51,9 @@ public class TestArtista{
 			Assert.assertTrue(c.getIlustracion().get().equals("C:/cm.jpg"));
 	}
 
+    /**
+     * Prueba unitaria para {@link Artista#getBiografia}.
+     */
 	@Test public void testGetBiografia(){
 			Artista a = new Artista("Adam Levine", "C:/al.jpg", "US | 1979", "Maroon 5");
 			Artista b = new Artista("Robin Thicke", "C:/rt.jpg", "US | 1977", "-");
@@ -44,6 +63,9 @@ public class TestArtista{
 			Assert.assertTrue(c.getBiografia().get().equals("EN | 1977"));
 	}
 
+    /**
+     * Prueba unitaria para {@link Artista#getIntegrant}.
+     */
 	@Test public void testGetIntegrant(){
 			Artista a = new Artista("Adam Levine", "C:/al.jpg", "US | 1979", "Maroon 5");
 			Artista b = new Artista("Robin Thicke", "C:/rt.jpg", "US | 1977", "");
@@ -53,6 +75,9 @@ public class TestArtista{
 			Assert.assertTrue(c.getIntegrant().get().equals("Coldplay"));
 	}
 
+    /**
+     * Prueba unitaria para {@link Artista#getSNombre}.
+     */
 	@Test public void testGetSNombre(){
 			Artista a = new Artista("Adam Levine", "C:/al.jpg", "US | 1979", "Maroon 5");
 			Artista b = new Artista("Robin Thicke", "C:/rt.jpg", "US | 1977", "-");
@@ -62,6 +87,9 @@ public class TestArtista{
 			Assert.assertTrue(c.getSNombre().equals("Chris Martin"));
 	}
 
+    /**
+     * Prueba unitaria para {@link Artista#setIntegrant}.
+     */
 	@Test public void testSetIntegrant(){
 			Artista a = new Artista("Adam Levine", "C:/al.jpg", "US | 1979", "Maroon 5");
 			Artista b = new Artista("Robin Thicke", "C:/rt.jpg", "US | 1977", "-");

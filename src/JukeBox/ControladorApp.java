@@ -1,3 +1,11 @@
+/**
+ *Clase <code>ControladorApp</code>.
+ *Clase que funciona como controlador para la vista en XML.
+ *Esta clase únicamente contiene escuchas para los botones y controla su comportamiento.
+ *@author <a href="mailto:pablo.t645@hotmail.com">Pablo G.</a>
+ *@version 1.0
+ *Copyright 2015 Pablo G.
+ */
 package JukeBox;
 
 import javafx.fxml.FXML;
