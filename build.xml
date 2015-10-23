@@ -5,6 +5,7 @@
   <property name="src.dir"   value="src" />
   <property name="lib.dir"   value="lib" />
   <property name="doc.dir"   value="doc" />
+  <property name="demo.dir"   value="demo" />
 
   <target name="Help">
     <echo message="Compile | Compila el proyecto."/>
@@ -44,6 +45,10 @@
     </javac>
     <copy todir="${build.dir}/Jukebox/fxml">
       <fileset dir="${src.dir}/Jukebox/fxml"/>
+    </copy>
+    <mkdir dir="${user.home}/JukeBox"/>
+    <copy todir="${user.home}/Jukebox">
+      <fileset dir="${demo.dir}"/>
     </copy>
   </target>
 
