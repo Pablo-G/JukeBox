@@ -13,6 +13,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.scene.image.Image;
 
 public class App extends Application{
 
@@ -26,6 +27,7 @@ public class App extends Application{
 		Scene scene = new Scene(root, 1440, 710);
 
 		stage.setTitle("JukeBox");
+		stage.getIcons().add(new Image("file:./lib/assets/ICON.png"));
 		stage.setScene(scene);
 		stage.show();
 	}
