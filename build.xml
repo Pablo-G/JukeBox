@@ -62,7 +62,8 @@
              author="false"
              version="false"
              use="true"
-             windowtitle="JukeBox">
+             windowtitle="JukeBox"
+             encoding="utf-8">
       <doctitle><![CDATA[<h1>JukeBox</h1>]]></doctitle>
       <link href="http://docs.oracle.com/javase/8/docs/api/" />
       <classpath>
