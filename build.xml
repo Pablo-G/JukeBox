@@ -43,11 +43,11 @@
       </classpath>
       <compilerarg value="-Xlint:unchecked"/>
     </javac>
-    <copy todir="${build.dir}/Jukebox/fxml">
-      <fileset dir="${src.dir}/Jukebox/fxml"/>
+    <copy todir="${build.dir}/JukeBox/fxml">
+      <fileset dir="${src.dir}/JukeBox/fxml"/>
     </copy>
     <mkdir dir="${user.home}/JukeBox"/>
-    <copy todir="${user.home}/Jukebox">
+    <copy todir="${user.home}/JukeBox">
       <fileset dir="${demo.dir}"/>
     </copy>
   </target>
